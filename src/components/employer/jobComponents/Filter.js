@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Spinner from '../../Spinner';
 
 
 const Filter = ({ current }) => {
@@ -12,7 +13,25 @@ const Filter = ({ current }) => {
     //     salary: 0,
     // }
 
+    const [loading, setLoading] = useState(true);
+    const [loading2, setLoading2] = useState(false);
+
+
     
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500)
+
+    }, [loading])
+    
+    useEffect(() => {
+            setTimeout(() => {
+                setLoading2(false);
+            }, 800)
+            
+    }, [loading2])
+
     ///////////////// FOR ALL THE OPTIONS /////////////////////////////
     let obj1 = {
         // removeFalseLocation: [current.filter(ele => ele.location)],
@@ -81,11 +100,14 @@ const Filter = ({ current }) => {
         let value = e.target.value;
         let name = e.target.name;
         // if(name === 'location' && value === 'all') setFindLocation(current);
-        if (name === 'location') setFindLocation(value);
-        if (name === 'exp') setFindExp(value);
-        if (name === 'salary') setFindSalary(value);
+        setTimeout(() => {
+            setLoading2(true);
+            if (name === 'location') setFindLocation(value);
+            if (name === 'exp') setFindExp(value);
+            if (name === 'salary') setFindSalary(value);
+        }, 300)
         
-        console.log(parseInt(findSalary));
+        // console.log(parseInt(findSalary));
         // console.log(findLocation, findExp, findSalary, obj2.salaryMax);
 
     }
@@ -235,6 +257,10 @@ const Filter = ({ current }) => {
     // let exp = Math.max(...max);
     // let experienceType = <option>{exp}</option>
 
+    if (loading) {
+        return <Spinner size={3} />
+    }
+
     return (
         <div>
             <label htmlFor="">Location: </label>
@@ -264,9 +290,14 @@ const Filter = ({ current }) => {
             //         <p>Education: {single.education}</p>
             //         <p>Skill: {single.skill}</p>
             //     </div>)
+                // {
+                
+                    loading2 ? <Spinner size={3} /> :
 
-                showContent() 
-            }
+                    
+                            showContent()
+            
+                    }
         </div>
     )
 }

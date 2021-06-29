@@ -8,6 +8,10 @@ import styled from 'styled-components';
 import Employer from './employer/Employer';
 import Candidate from './candidate/Candidate';
 import fire from '../config/fire'
+import firebase from 'firebase';
+
+import { connect } from 'react-redux';
+// import { changeUserProfileName } from '../actions/action';
 // import Login from '../login/Login';
 // import Navbar from './Navbar';
 // import Candidate from './employer/Candidate';
@@ -24,6 +28,18 @@ import fire from '../config/fire'
 // }
 
 class Auth extends React.Component {
+
+    // state = {
+    //     name: ''
+    // }
+    // componentDidMount() {
+    //     firebase.database().ref('/InitialCheckProfile').once('value').then((snap) => {
+    //         this.setState({name: snap.val()})
+    //         // setName(snap.val());
+    //         // console.log(snap.val())
+    //     })
+        
+    // }
     // constructor(props) {
     //     super(props);
         
@@ -81,10 +97,11 @@ class Auth extends React.Component {
             //     })
             //     // console.log(window.innerWidth);
             // }
+    // localStorage.getItem('name')
             
     render() {
         const {signIn, signOut, handleSignOut} = this.props
-        if (signIn && localStorage.getItem('name') === 'Employer') {
+        if (signIn && this.props.userProfile === 'Employer') {
             return <span>
                 <Employer handleSignOut={handleSignOut} />
                 <Image className='signIn-logo' src={fire.auth().currentUser.photoURL} alt="" />
@@ -101,7 +118,7 @@ class Auth extends React.Component {
             </span>
         }
         else {
-            if (signIn && localStorage.getItem('name') === 'Candidate') {
+            if (signIn &&  this.props.userProfile === 'Candidate') {
                 return (
                     <div>
                         <Candidate handleSignOut={handleSignOut} />
@@ -168,7 +185,15 @@ class Auth extends React.Component {
 }
 }
 
-export default Auth;
+const MapState = (state) => {
+    // console.log(state.changeUserProfileName);
+    return {
+        userProfile: state.changeUserProfileName
+    }
+}
+
+export default connect(MapState, null)(Auth)
+
 
 
 const Container = styled.div`

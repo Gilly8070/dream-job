@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from "react-router-dom";
 // import Dashboard from './Dashboard';
 // import Jobs from './Jobs';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-const Sidebar = ({openSideBar}) => {
+const Sidebar = ({ openSideBar, openSide }) => {
+
     return (
         <div>
             {
-                // openSide ?
-                <MainContainer>
+                // openSide &&
+                <MainContainer openSide='openSide'>
                     <SmallContainer>
                         <ListStyle>
-                            <Link to='/' onClick={openSideBar}  style={{ textDecoration: 'none', color: 'black' }}>
+                            <StyleLink to='/' onClick={openSideBar} >
                                 Dashboard
-                            </Link>
+                            </StyleLink>
                         </ListStyle>
                         <ListStyle>
-                            <Link to='/jobs' style={{ textDecoration: 'none', color: 'black' }}>
+                            <StyleLink to='/jobs'>
                                 Jobs
-                            </Link>
+                            </StyleLink>
                         </ListStyle>
                         <ListStyle>
-                            <Link to='/candidate' style={{ textDecoration: 'none', color: 'black' }}>
+                            <StyleLink to='/candidate'>
                                 Candidate
-                            </Link>
+                            </StyleLink>
+                        </ListStyle>
+                        <ListStyle>
+                            <StyleLink to='/approvals'>
+                                Approvals
+                            </StyleLink>
                         </ListStyle>
                     </SmallContainer> 
-                </MainContainer>
+                    </MainContainer>
+                    
                     // : null
             }
         </div>
@@ -37,97 +44,128 @@ const Sidebar = ({openSideBar}) => {
 export default Sidebar;
 
 
-
 const MainContainer = styled.div`
-/* position: fixed; */
-/* left: 0;  */
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
-background-color: #C9D6FF;
-width: 400px;
+
 height: 100vh;
-cursor: pointer;
-/* display: grid; */
-/* grid-template-rows: auto 1fr auto; */
-/* row-gap: 1rem; */
+width: 300px;
 line-height: 1.5;
-/* margin: 30px */
-/* border: 1px solid white; */
-transform: translateX(0);
-transition: transform 2s;
-@media (max-width: 826px ) {
-    width: 300px;
-    height: 100%;
-    /* align-items: space-between; */
-    /* justify-content: space-around; */
+background-color: #F5A04E;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between; */
+
+@media (max-width: 320px ) {
+height: 100vh;
+width: 150px;
+line-height: 1.5;
+background-color: red;
+
 }
 `
 
 const SmallContainer = styled.ul`
-/* display: flex; */
-/* flex-direction: column; */
-margin-top: 10px;
-padding: 10px;
-@media (max-width: 826px ) {
-    /* width: 300px; */
-    /* height: 100%; */
+/* @media (max-width: 826px ) { */
+/* display: grid; */
+/* grid-template-columns: repeat(autofit, minmax(230px, 1fr)); */
     display: flex;
     flex-direction: column;
-    /* align-items: ; */
     justify-content: space-between;
-    /* align-items: center; */
+    align-content: space-between;
+    /* margin: 30px; */
+    /* padding: 70px; */
+    /* padding-left: 30px; */
+    /* /* float: 1; */
+    /* floa */
+    /* flex-grow: 2; */
+/* position: relative; */
+
+    /* height: 100vh; */
+/* } */
+
+@media (max-width: 320px ) {
+    /* width: 300px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+    /* margin-top: 10px; */
+    /* padding: 10px; */
 }
-/* justify-content: space-between; */
-/* align-items: center; */
-/* text-align: center; */
-/* text-decoration:none; */
-/* display: inline-block; */
-/* padding: 20px 30px; */
-/* margin: 20px; */
+
+/* &:hover {
+background-color: blanchedalmond;
+} */
 `
 
 const ListStyle = styled.li`
-/* text-align: center; */
-margin: 30px;
-padding: 20px 30px;
-padding: 1.4rem 1.5rem;
+/* margin: 30px 50px; */
+/* display: flex; */
+/* flex-direction: column; */
+/* align-content: space-between; */
+/* justify-content: space-between; */
+/* align-items: flex-start; */
+/* align-self: inherit; */
+/* padding: 30px 30px; */
+/* margin-top: 20px; */
+/* margin-bottom: 20px; */
+/* display: block; */
+/* padding: 1.4rem 1.5rem; */
+/* margin-top: 20px;
+margin-bottom: 20px;
+padding-top: 20px;
+padding-bottom: 20px; */
+/* position: fixed; */
+/* margin: 20px; */
+/* padding: 20px; */
+margin: 20px 0;
+/* margin-bottom: 20px; */
+padding: 20px 0;
+/* padding-top: 20px; */
+padding-left: 60px;
 font-size: 1.8rem;
 font-family: sans-serif;
-/* text-decoration: none; */
-list-style: none;
-/* display: inline-block; */
+/* list-style: none; */
+cursor: pointer;
+/* width: 100px; */
+/* height: 150px; */
+/* align-self: flex-end; */
+/* width: 100px; */
 
-/* color: red; */
+@media (max-width: 320px ) {
+font-size: 0.8rem;
+padding: 8px;
+margin: 10px;
+/* padding: 1.4rem 1.5rem; */
+margin-right: 10px;
+cursor: pointer;
+background-color: coral;
+text-decoration: none;
 
+/* text-align: center; */
+}
 
 
 &:hover {
-/* display: inline-block; */
-    /* border: 1px solid black; */
-    /* position: absolute; */
-    /* position: relative; */
-    /* left: 0; */
-    /* right: 0; */
-    /* display: flex; */
-    /* flex */
-    font-size: 1.7rem;
-    /* width: 400px; */
-    /* padding: 1.75rem; */
-    /* margin: 0; */
-    /* border-bottom: 1px solid red; */
+    /* font-size: 1.7rem; */
     color: red;
     background-color: white;
-    border-radius: 10px;
-    /* padding: 10px 0; */
-    /* color: white; */
-    /* display: block; */
-    /* background-color: ; */
-    /* padding: 1rem 1.5rem; */
-    /* transition: all 0.3s linear; */
-    /* border-radius: 9px; */
+/* display: inline-block; */
 
+    /* width: 400px; */
+    /* margin: -20px; */
+    /* padding: -25px -50px; */
+/* position: absolute; */
+/* top: 0; */
+/* left: 0; */
+
+
+    /* margin: 100px; */
+    /* margin: 4px 20px 4px 20px; */
+    /* padding: 20px 100px 20px 50px; */
+    /* border-radius: 10px; */
+    /* margin: 0; */
+    /* width: 200px; */
 }
 &:active {
     color: red;
@@ -135,10 +173,28 @@ list-style: none;
 &:focus {
     color: red;
 }
-
-/* border-bottom: none; */
 `
 
-// const StyleLink = styled.ink`
-// color: white
-// `
+const StyleLink = styled(Link)`
+text-decoration: none;
+color: black;
+/* margin: 30px 30px; */
+/* padding-top: 220px; */
+&:hover {
+/* height: 150px; */
+    /* background-color: black; */
+    color: #4CC261;
+/* text-transform: none; */
+    /* font-size: 1.7rem; */
+    /* color: red; */
+    /* margin: 0; */
+    /* padding: 20 50 20 50; */
+    /* text-decoration: none; */
+    /* border: 1px solid #ccc; */
+    /* color: 'black'; */
+    /* background-color: white; */
+    /* width: 300px;
+    padding: 25px;
+    margin: 25px; */
+}
+`;

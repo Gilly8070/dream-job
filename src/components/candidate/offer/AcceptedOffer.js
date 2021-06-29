@@ -2,11 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { undoJobAccepted } from '../../../actions/action';
 import firebase from 'firebase';
+import { currentUserAcceptedOffer } from '../../../actions/action';
+import { Link } from 'react-router-dom';
+import Spinner from '../../Spinner';
 
-const AcceptedOffer = ({ current, undoJobAccepted }) => {
+const AcceptedOffer = ({ current, undoJobAccepted, currentUserAcceptedOffer }) => {
     const database = firebase.database();
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [modal, setModal] = useState(false);
+    const [modalTerm, setModalTerm] = useState('');
     
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
+
+    }, [loading])
+
     useEffect(() => {
         database
         .ref('offer/acceptOffer/' + firebase.auth().currentUser.uid)
@@ -22,6 +35,10 @@ const AcceptedOffer = ({ current, undoJobAccepted }) => {
             })
             console.log(exp);
             setData(exp);
+                
+            
+            ////// USED IN SEARCH FILTER COMPONENT////////////////////////////////////////////////////////////////////////////////////
+            currentUserAcceptedOffer(exp)
             // final.push(exp);
             // exp.map((ele) => {
                 //     const {obj} = ele
@@ -34,6 +51,7 @@ const AcceptedOffer = ({ current, undoJobAccepted }) => {
         // console.log(snap);
     }, [database])
     const cancelOffer = (singleId) => {
+        setTimeout(() => { 
         let findSingleJob = data.find((single) => single.id === singleId)
         let key = findSingleJob.key;
         delete findSingleJob.key;
@@ -45,7 +63,9 @@ const AcceptedOffer = ({ current, undoJobAccepted }) => {
         //     console.log('not added to accept')
         // });
 
-        database.ref(`offer/acceptOffer/${firebase.auth().currentUser.uid}/${key}`).remove()
+            database.ref(`offer/acceptOffer/${firebase.auth().currentUser.uid}/${key}`).remove()
+            
+            }, 1000)
         //     .then(() => {
         //     console.log('remove from receivedOffer')
         // }).catch(() => {
@@ -78,18 +98,56 @@ const AcceptedOffer = ({ current, undoJobAccepted }) => {
                             // })
                             // console.log(final);
                             // }
+    const showModal = (id, term) => {
+        // if (term === 'accept') {
+        const btn = document.getElementsByName('btn')
+        btn.forEach((ele) => {
+            console.log(ele, id)
+            setTimeout(() => {
+                ele.disabled = true;
+                setModal(true);
+                // term === 'accept' &&
+                    setModalTerm(' OFFER CANCELLED SUCCESSFULLY')
+                // term === 'reject' &&
+                    // setModalTerm('SUCCESSFULLY REJECTED')
+            }, 100);
+            setTimeout(() => {
+                ele.disabled = false;
+                setModal(false);
+            }, 700);
+        })
+    }
+    
+        if (loading) {
+            return <Spinner size={3} />
+        }
+    
         if (data.length === 0) {
-                return <h1>No Accepted Job To Display</h1>
-            }
+            return <h1>No Accepted Job To Display</h1>
+        }
         // if (data.length > 0) {
         //         setTimeout(() => {
         //             return '.....'
         //         }, 5000)
         //     }
     
+
     return (
         // className={` ${accepted ? 'active': 'hide'}`}
         <div >
+            {
+                modal ? <h1>{modalTerm}</h1> : null
+            }
+
+            <Link to='search/acceptedOffer'>
+                <i class="fas fa-search fa-3x"></i>
+            </Link>
+            <Link to='filter/acceptedOffer'>
+                <i class="fas fa-filter fa-3x"></i>
+            </Link>
+            <Link to='sort/acceptedOffer'>
+                <i class="fas fa-sort fa-3x"></i>
+            </Link>
             {
                 data.map(single => {
                     return (
@@ -99,7 +157,10 @@ const AcceptedOffer = ({ current, undoJobAccepted }) => {
                             <p>Accepted on Date</p>
                             <p>Status In Transit</p>
                             <p>Received Date</p>
-                            <button onClick={() => cancelOffer(single.id)}>Cancel Offer</button>
+                            <button name='btn' onClick={() => {
+                                cancelOffer(single.id);
+                                showModal(single.id)
+                            }}>Cancel Offer</button>
                         </div>
                     )
                 })
@@ -119,4 +180,4 @@ const MapState = (state) => {
     }
 }
 
-export default connect(MapState, {undoJobAccepted})(AcceptedOffer);
+export default connect(MapState, {undoJobAccepted, currentUserAcceptedOffer})(AcceptedOffer);

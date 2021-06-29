@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 // import {Route, Switch} from 'react-router-dom';
@@ -8,11 +8,23 @@ import { v4 as uuidV4 } from 'uuid';
 // import { useState } from 'react';
 // import Jobs from './Jobs';
 import firebase from 'firebase';
+import Spinner from '../../Spinner';
 
 const AddJob = ({ addNewJob }) => {
     const database = firebase.database();
     let selectEmploymentType = ['FullTime', 'PartTime', 'FullTime/ PartTime']
     let selectShiftType = ['9 - 5 PM', '5 - 1 AM', '12 - 8 AM' ]
+
+    const [loading, setLoading] = useState(true);
+    const [modal, setModal] = useState(false);
+    const [modalTerm, setModalTerm] = useState('');
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500)
+
+    }, [loading])
 
     let addJob = {
         id: '',
@@ -39,15 +51,50 @@ const AddJob = ({ addNewJob }) => {
         additionalInformation : '',
         openings : '',
         roleDescription : '',
-        
+        category: '',
 
 
         // selectEmploymentType : ['FullTime', 'PartTime', 'FullTime/ PartTime']
     }
     // const [text, setText] = useState(addJob);
 
+    // const showModal = (id, term) => {
+    //     // if (term === 'accept') {
+    //     const btn = document.getElementsByName('btn')
+    //     btn.forEach((ele) => {
+    //         setTimeout(() => {
+    //             ele.disabled = true;
+    //             setModal(true);
+    //             setModalTerm(' OFFER CANCELLED SUCCESSFULLY')
+    //         }, 100);
+    //         setTimeout(() => {
+    //             ele.disabled = false;
+    //             setModal(false);
+    //         }, 700);
+    //     })
+    // }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // const btn = document.getElementsByName('btn')
+
+        setTimeout(() => {
+                // btn.disabled = true;
+                setModal(true);
+                window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+                setModalTerm(' JOB ADDED SUCCESSFULLY')
+            }, 100);
+            setTimeout(() => {
+                // btn.disabled = false;
+                setModal(false);
+            }, 1500);
+
+
+
         // const value = e.target.value
         addJob.date = new Date().toISOString().split("T")[0]
         addJob.id = uuidV4();
@@ -77,7 +124,7 @@ const AddJob = ({ addNewJob }) => {
         id: '', title: '',date: '',location: '',experience: '',
         status: 'available',salary: '',description: '',education: '',skill: '',employmentType: 'FullTime',
         shiftType: '9-5 PM',designation: '',
-        companyName : '',companyLogo : '',assignRole : '',qualification : '',keyResponsibilities : '',technicalExperience : '',additionalInformation : '',openings : '',roleDescription : '',
+        companyName : '',companyLogo : '',assignRole : '',qualification : '',keyResponsibilities : '',technicalExperience : '',additionalInformation : '',openings : '',roleDescription : '', category: '',
         }
         // database.ref('Jobs').once('value')
         //     .then((snapshot) => {
@@ -139,12 +186,24 @@ const AddJob = ({ addNewJob }) => {
     // const handelBack = () => {
 
     // }
+    if (loading) {
+        return <Spinner size={3} />
+    }
     return (
         <React.Fragment>
-            <form id='myForm' onSubmit={handleSubmit} action="">
+            <form id='myForm' onSubmit={handleSubmit } action="">
                 <Container  >
+                    
+                    {
+                        modal ? <h1>{modalTerm}</h1> : null
+                    }
+
                     <label htmlFor="">Job Title:  </label>
-                    <input onChange={handleChange} name='title' type="text" placeholder='Enter Job Title' />
+                    <input required onChange={handleChange} name='title' type="text" placeholder='Enter Job Title' />
+
+                    <label htmlFor="">Job Category:  </label>
+                    <input onChange={handleChange} name='category' type="text" placeholder='Enter Job Category' />
+
                     <label htmlFor="">Company Name  </label>
                     <input onChange={handleChange} name='companyName' type="text" placeholder='Enter Company Name' />
                     <label  htmlFor="">Location: </label>
@@ -175,7 +234,7 @@ const AddJob = ({ addNewJob }) => {
                     <label htmlFor="">FullTime </label>
                     <input required className='employmentType' name='employmentType' onChange={handleChange} type="checkbox"  value='PartTime' />
                 <label htmlFor="">PartTime</label> */}
-                <select onChange={handleChange} name="employmentType" id="">{
+                <select onChange={ handleChange} name="employmentType" id="">{
                     selectEmploymentType.map((ele, index) => {
                         return <option key={index} value={ele}>{ele}</option>
                     })
@@ -204,9 +263,9 @@ const AddJob = ({ addNewJob }) => {
                 <textarea onChange={handleChange} name="additionalInformation" id="" cols="20" rows="5" placeholder='Enter Additional Information' ></textarea>
                 <label htmlFor="">Role Description :</label>
                 <textarea onChange={handleChange} name="roleDescription" id="" cols="20" rows="5" placeholder='Enter Role Description' ></textarea>
-                <button>Submit</button>
+                <button name='btn'>Submit</button>
                 <Link to='/jobs'>
-                <button>Back</button>
+                <button name='btn'>Back</button>
                 </Link>
                 </Container>
             </form>

@@ -1,14 +1,25 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 // import { Link } from 'react-router-dom';
 import ReceivedOffer from './ReceivedOffer';
 import AcceptedOffer from './AcceptedOffer';
 import RejectedOffer from './RejectedOffer';
+import Spinner from '../../Spinner';
 
 
 const Offer = () => {
     const [received, setReceived] = useState(true);
     const [accepted, setAccepted] = useState(false);
     const [rejected, setRejected] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000)
+
+    }, [loading])
+
+    
     // const handleChangeOffer = (offerName) => {
         // if (offerName === 'received') {
         //     console.log('received')
@@ -25,7 +36,10 @@ const Offer = () => {
         //     // return <RejectedOffer />
         // }
     // }
-    
+
+    if (loading) {
+        return <Spinner size={3} />
+    }
     return (
         <div>
             {/*<Link to='/received'>

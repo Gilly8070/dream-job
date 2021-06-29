@@ -12,6 +12,11 @@ import LiveJobs from './Jobs/LiveJobs';
 import MapJobs from './Jobs/MapJobs';
 import AppliedJobs from './Jobs/AppliedJobs';
 import SingleMapJobs from './Jobs/SingleMapJobs';
+import Interview from './interview/Interview';
+import Search from './sideComponents/Search';
+import Filter from './sideComponents/Filter';
+import Sort from './sideComponents/Sort';
+
 
 const Candidate = ({ handleSignOut }) => {
     const [openSide, SetOpenSide] = useState(false);
@@ -44,7 +49,13 @@ const Candidate = ({ handleSignOut }) => {
                 <Route exact path='/appliedJob'>
                     <AppliedJobs />
                     </Route>
-                    <Route exact path='/SingleMapJobs/:id' component={SingleMapJobs} />
+                <Route exact path='/SingleMapJobs/:id' component={SingleMapJobs} />
+                <Route exact path='/interview'>
+                    <Interview />
+                </Route>
+                <Route exact path='/search/:searchName' component={Search} />
+                <Route exact path='/filter/:filterName' component={Filter} />
+                <Route exact path='/sort/:sortName' component={Sort} />
             </Switch>
         </BrowserRouter>
     )

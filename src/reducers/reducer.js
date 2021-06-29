@@ -19,6 +19,24 @@ import {
     ADD_APPLIED_LIVE_JOBS,
     All_CANDIDATE_APPLIED_JOBS,
     ALL_PERSONAL_DATA,
+    ALL_CANDIDATE_INTERVIEW_TIME,
+    REMOVE_INTERVIEW_FROM_REDUX,
+    ALL_CANDIDATE_APPROVED_DATE,
+
+    ALL_CANDIDATE_INTERVIEW_LEFT,
+    ALL_CANDIDATE_NAME,
+
+    ADD_DASHBOARD_SCHEDULE_INTERVIEW,
+    ADD_DASHBOARD_BOXES,
+
+    CURRENT_USER_RECEIVED_OFFER,
+    CURRENT_USER_ACCEPTED_OFFER,
+    CURRENT_USER_REJECT_OFFER,
+
+    CHANGE_USER_PROFILE_NAME
+    // allCandidateInterviewTime,
+    // FAKE,
+    // startShowAppliedJobs
     // All_CANDIDATE_OFFER_JOBS,
 } from '../actions/action';
 // import { data } from '../data';
@@ -44,6 +62,21 @@ export const initialState = {
     appliedLiveJobs: [],
     allCandidateAppliedJobs: [],
     allPersonalData: [],
+
+    // fake: [],
+    allCandidateInterviewTime: [],
+    allCandidateApprovedDate: [],
+
+    allCandidateInterviewLeft: [],
+    allCandidateName: [],
+    addDashboardScheduleInterview: [],
+    EmployerDashboardBoxes: [],
+
+    currentUserReceivedOffer: [],
+    currentUserAcceptedOffer: [],
+    currentUserRejectOffer: [],
+
+    changeUserProfileName: '',
     // allCandidateOfferJobs: []
 }
 // let some = [initialState.list];
@@ -239,6 +272,79 @@ export default function reducer(state=initialState, action) {
                 // allPersonalData: [],
                 allPersonalData: action.data,
                 // allPersonalData: [...state.allPersonalData, action.data]
+            }
+        case REMOVE_INTERVIEW_FROM_REDUX:
+            // let sta = state.allCandidateAppliedJobs.find((ele) => ele[0].userId === action.userId)
+            return {
+                ...state,
+                // allCandidateAppliedJobs: sta.filter((item2) => item2.id !== action.id)
+                // allCandidateJobs: state.allCandidateAppliedJobs.filter((ele) => ele[0] !== action.userId)
+            }
+        // case FAKE:
+        //     return {
+        //         ...state,
+        //         fake: action.data,
+        //     }
+        case ALL_CANDIDATE_INTERVIEW_TIME:
+            return {
+                ...state,
+                // allCandidateInterviewTime: [],
+                allCandidateInterviewTime: action.data,
+                // allCandidateInterviewTime: [...state.allCandidateInterviewTime, ...action.data]
+            }
+        case ALL_CANDIDATE_APPROVED_DATE:
+            return {
+                ...state,
+                // allCandidateInterviewTime: [],
+                allCandidateApprovedDate: action.data,
+                // allCandidateInterviewTime: [...state.allCandidateInterviewTime, ...action.data]
+            }
+        case ALL_CANDIDATE_INTERVIEW_LEFT:
+            return {
+                ...state,
+                // allCandidateInterviewTime: [],
+                allCandidateInterviewLeft: action.data,
+            }
+        case ALL_CANDIDATE_NAME:
+            return {
+                ...state,
+                // allCandidateInterviewTime: [],
+                allCandidateName: action.data,
+                
+            }
+        case ADD_DASHBOARD_SCHEDULE_INTERVIEW:
+            return {
+                ...state,
+                // addDashboardScheduleInterview: [],
+                addDashboardScheduleInterview: [...state.addDashboardScheduleInterview, action.data],
+                
+            }
+        case ADD_DASHBOARD_BOXES:
+            return {
+                ...state,
+                // EmployerDashboardBoxes: [],
+                EmployerDashboardBoxes: [...state.EmployerDashboardBoxes, action.data],
+
+            }
+        case CURRENT_USER_RECEIVED_OFFER:
+            return {
+                ...state,
+                currentUserReceivedOffer: action.data,
+            }
+        case CURRENT_USER_ACCEPTED_OFFER:
+            return {
+                ...state,
+                currentUserAcceptedOffer: action.data,
+            }
+        case CURRENT_USER_REJECT_OFFER:
+            return {
+                ...state,
+                currentUserRejectOffer: action.data
+            }
+        case CHANGE_USER_PROFILE_NAME:
+            return {
+                ...state,
+                changeUserProfileName: action.user
             }
         default:
             return state;

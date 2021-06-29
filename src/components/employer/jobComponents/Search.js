@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { data } from '../../components/employer/sidebar/Jobs';
 import { connect } from 'react-redux';
 import { searchJob } from '../../../actions/action';
 // import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Spinner from '../../Spinner';
 
 
 
@@ -14,15 +15,47 @@ const Search = ({current, searchJob}) => {
     // const [click, setClick] = useState(false);
     // const [display, setDisplay] = useState(data);
 
+    const [loading, setLoading] = useState(true);
+    const [loading2, setLoading2] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1500)
+
+    }, [loading])
+
+    // const handleChange2 = () => {
+    //     // useEffect(() => {
+    //         setTimeout(() => {
+    //             setLoading2(true);
+    //         }, 1000)
+    //         // setTimeout(() => {
+    //         //     setLoading2(false);
+    //         // }, 500)
+    //     // }, [loading2])
+    // }
+    useEffect(() => {
+            setTimeout(() => {
+                setLoading2(false);
+            }, 800)
+            
+        }, [loading2])
+    
     // useEffect(() => {
         const handleChange = (e) => {
             let value = e.target.value.toUpperCase();
             setText(value);
             // searchJob(text);
-            let filterCurrent = current.filter((single) => single.title.toUpperCase().includes(value));
-            setSearchJobs(filterCurrent);
-            console.log(searchJobs);
-            console.log(text);
+
+            // handleChange2()
+            setTimeout(() => {
+            setLoading2(true);
+                let filterCurrent = current.filter((single) => single.title.toUpperCase().includes(value));
+                setSearchJobs(filterCurrent);
+                console.log(searchJobs);
+                console.log(text);
+            }, 300)
     }
             // console.log(searchJobs);
 
@@ -84,20 +117,27 @@ const Search = ({current, searchJob}) => {
     //         <h1>single.title</h1>
     //     </div>
     // }
-    
+    if (loading) {
+        return <Spinner size={3} />
+    }
+    // if (loading2) {
+    //     return <Spinner size={3} />
+    // }
     return (
             // filter ?
         <div>
             <div>
             <label>search:</label>
-                <input value={text} type="text" placeholder='search by job title' onChange={handleChange} />
+                <input value={text} type="text" placeholder='search by job title' onChange={handleChange}/>
             </div>
                 <Link to='/jobs'>
                     <button>Back</button>
-                </Link>
-            {searchJobs.length > 0 ?
-                searchJobs.map((single) => {
-                    return <div key={single.id}>
+            </Link>
+            <div>
+            {loading2 ? <Spinner size={3} /> :
+                !loading2 && searchJobs.length > 0 ?
+                    searchJobs.map((single) => {
+                        return <div key={single.id}>
                             <h2>{single.title}</h2>
                             <p>Date: {single.date}</p>
                             <p>Location: {single.location}</p>
@@ -107,7 +147,7 @@ const Search = ({current, searchJob}) => {
                             <p>Education: {single.education}</p>
                             <p>Skill: {single.skill}</p>
                         </div>
-                }) : <h1>No Job Found</h1>
+                    }) : <h1>No Job Found</h1>
                 // click ? <h1>Hello</h1> : null
                 // text === '' ? /////////////////////////////////////
                 //     current.map(single =>
@@ -155,8 +195,9 @@ const Search = ({current, searchJob}) => {
                 //                 : null
                 //             )  ///////////////////////////////////////
                     // }
-            }
-            
+                }
+                
+            </div>
         </div> 
         // : null
     )

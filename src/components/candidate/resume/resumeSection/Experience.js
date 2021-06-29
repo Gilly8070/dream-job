@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import Spinner from '../../../Spinner';
 
 const Experience = ({ ExperienceDetails }) => {
     // const {} = ExperienceDetails;
     // console.log(ExperienceDetails, 'exp');
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 300)
+
+    }, [loading])
+
+    if (loading) {
+        return <Spinner size={3} />
+    }
     return (
         <div>
             {ExperienceDetails ?

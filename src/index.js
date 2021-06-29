@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from './reducers/reducer';
 import App from './App';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { useEffect } from 'react';
 // import { data } from './data';
+import Spinner from './components/Spinner';
 
 // let initialState = {}
 // let persistedState;
@@ -42,6 +44,23 @@ import thunk from 'redux-thunk';
 //                        : {}
 
 //                        localStorage.clear();
+
+// const StateChange = () => {
+//   useEffect(() => {
+//     window.onbeforeunload = () => {
+//       return <i class="fas fa-spinner"></i>;
+//     };
+//   }, [])
+  
+//   useEffect(() => {
+//     window.onbeforeunload = null;
+//   }, [])
+// }
+
+// StateChange()
+    
+
+
 export const loadState = () => {
   try {
     const serializedState = localStorage.getItem("state");
@@ -94,14 +113,56 @@ store.subscribe(() => {
 // end of localStorage
 console.log(store.getState(), 'store');
 
+// delete store.getState().all
+// delete store.getState().allCandidateJobs
+// delete store.getState().fake
+// delete store.getState().allData
+
+// useEffect(() => {
+
+// }, 2000)
+
 // console.log(  store.getState().newJobs, 'store2');
 
 // store.subscribe()
 
+const ScreenAfterLoading = () => {
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000)
+
+  }, [])
+
+  return (
+    <div>
+        {
+          loading ? <Spinner text={'Loading'} size={5} /> : <App loading={loading} />
+        }
+    </div>
+  )
+}
+
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>
-    ,
-    document.getElementById('root')
+      <Provider store={store}>
+          <ScreenAfterLoading />
+      </Provider>
+      ,
+      document.getElementById('root')
 )
+  
+
+/////// HERE WE ARE //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// setTimeout(() => {
+  // ReactDOM.render(
+  //     <Provider store={store}>
+  //         <App />
+  //     </Provider>
+  //     ,
+  //     document.getElementById('root')
+  // )
+// }, 1000)
+

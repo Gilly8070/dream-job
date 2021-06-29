@@ -24,6 +24,11 @@ const Sidebar = ({ openSideBar }) => {
                             </Link>
                     </ListStyle>
                     <ListStyle>
+                        <Link to='/interview' onClick={openSideBar} style={{ textDecoration: 'none', color: 'black' }}>
+                            Interview
+                        </Link>
+                    </ListStyle>
+                    <ListStyle>
                             <Link to='/appliedJob' onClick={openSideBar}  style={{ textDecoration: 'none', color: 'black' }}>
                                 Applied Jobs
                             </Link>

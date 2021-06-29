@@ -1,14 +1,38 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Spinner from '../../Spinner';
 
 const MapJobs = ({ current }) => {
     
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000)
+    }, [loading])
+    
+    
+    if (loading) {
+        return <Spinner size={3} />
+    }
+
     if (current.length === 0) {
         return <h1>No Jobs To Display</h1>
     }
     return (
         <div>
+            
+            <Link to='search/mapJobs'>
+                <i class="fas fa-search fa-3x"></i>
+            </Link>
+            <Link to='filter/mapJobs'>
+                <i class="fas fa-filter fa-3x"></i>
+            </Link>
+            <Link to='sort/mapJobs'>
+                <i class="fas fa-sort fa-3x"></i>
+            </Link>
             {
                 current.map(single => {
                     const { companyLogo, companyName, salary, title, location, shiftType, employmentType, experience, id } = single;

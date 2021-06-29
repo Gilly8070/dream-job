@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 // import fire from '../../../config/fire';
 import { connect } from 'react-redux';
 import { startAddResume } from '../../../actions/action';
 import { startSetResume } from '../../../actions/action';
+import Spinner from '../../Spinner';
 
 const AddResume = ({startAddResume , startSetResume}) => {
     // const database = firebase.database();
@@ -11,6 +12,8 @@ const AddResume = ({startAddResume , startSetResume}) => {
     const [addSkill, setAddSkill] = useState([]);
     const [addExperience, setAddExperience] = useState([]);
     const [showResume, setShowResume] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     let personalDetails = {
         // personal details
         firstName: '',
@@ -112,6 +115,14 @@ const AddResume = ({startAddResume , startSetResume}) => {
         //     console.log(snapshot.val())
         // });
     }
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 500)
+
+    }, [loading])
+
+    
     const handlePersonal = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -228,9 +239,19 @@ const AddResume = ({startAddResume , startSetResume}) => {
 
     // console.log(addSkill, 'addSkill');
     // console.log(personalDetails, 'personalDetails');
+    if (loading) {
+        return <Spinner size={3} />
+    }
+
     return (
         <div>
-            <h1>Add Your Resume <span onClick={() => setShowResume((prev) => !prev)} >+</span></h1>
+            <h1>Add Your Resume <span onClick={() => setShowResume((prev) => !prev)} >
+                {!showResume ?
+                    <i class="fas fa-plus"></i> :
+                    <i class="fas fa-times"></i>
+                }
+            </span></h1>
+
             {showResume ?
             
             <form id='form' onSubmit={handleSubmit} autoCapitalize='words' autocomplete="autocomplete_off_hack_xfr4!k">

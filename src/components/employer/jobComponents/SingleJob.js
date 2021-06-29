@@ -1,13 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Spinner from '../../Spinner';
 
 
 class SingleJob extends React.Component {
     state = {
         id: this.props.match.params.id,
+        loading: true,
     }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({loading: false})
+            }, 1500)
+    }
+
+
     render() {
+
+
+        if (this.state.loading) {
+        return <Spinner size={3} />
+        }
+
         console.log(this.state.id);
         // console.log(this.state.title, this.props.current.map(single => single.title));
         // let cur = this.props.current.map(single => single.title);

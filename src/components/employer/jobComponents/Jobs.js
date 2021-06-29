@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import Search from './Search';
 // import Sidebar from '../sidebar/Sidebar';
 import { connect } from 'react-redux';
@@ -6,12 +6,23 @@ import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
 import SingleJob from './SingleJob';
 // import { BrowserRouter,Route, Switch } from 'react-router-dom';
+import Spinner from '../../Spinner';
 
 
 const Jobs = ({current}) => {
     const [showSearch, setShowSearch] = useState(false);
     const [showAdd, setShowAdd] = useState(false);
     const [showMore, setShowMore] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000)
+
+    }, [loading])
+
+    
 
     const handleAdd = () => {
         console.log('add');
@@ -69,6 +80,9 @@ const Jobs = ({current}) => {
     // if (showAdd) {
     //     return <AddJob />
     // }
+    if (loading) {
+        return <Spinner size={3} />
+    }
     if (current.length === 0) {
         return (
             <div>

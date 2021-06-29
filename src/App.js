@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Auth from './components/Auth';
+import Spinner from './components/Spinner';
 import fire from './config/fire';
 import Login from './login/Login';
 // import firebase from 'firebase';
@@ -29,6 +30,7 @@ class App extends Component {
         isSignedIn: false,
         // name: localStorage.getItem('name'),
         signOut: false,
+        loading: true,
         // data: null,
         // database = firebase.database(),
         };
@@ -36,8 +38,22 @@ class App extends Component {
         // this.authListener = this.authListener.bind(this);
         // const database = firebase.database();
     }
+    // componentDidMount() {
+        
+    // window.onbeforeunload = () => {
+    //     return <i class="fas fa-spinner"></i>;
+    // };
+    // }
+
+    // componentDidUnmount(){
+    // window.onbeforeunload = null;
+    // }
 
     componentDidMount() {
+        // console.log(this.state.loading);
+        // setTimeout(() => {
+        //     this.setState({ loading: false });
+        // }, 4000)
         this.authListener();
     }
     // componentDidMount() {
@@ -74,10 +90,22 @@ class App extends Component {
     }
     handleSignOut = () => {
                 // this.setState({ signOut: true })
+                // if (e.target) {
+                    // console.log(e);
+                // }
                 this.setState(prev => ({
                     signOut: !prev.signOut
                 }))
     }
+    // if(window.document.onclick) {
+    //     console.log('click');
+    // }
+    // componentDidMount() {
+        // document.addEventListener("click", this.handleSignOut);
+    // }
+    // componentWillUnmount () {
+    //     document.removeEventListener("click", this.handleSignOut);
+    // }
     // useEffect((e) => {
         
     // })
@@ -91,8 +119,11 @@ class App extends Component {
     render() {
         // console.log(this.state.data, '2');
         return (
+            // {
+            //     this.state.loading ? <Spinner /> : null
+            // }
             <div>
-            { this.state.user ? (<Auth signIn={this.state.isSignedIn} signOut={this.state.signOut} handleSignOut={this.handleSignOut} />) : ( <Login /> ) }
+            { !this.props.loading && this.state.user ? (<Auth signIn={this.state.isSignedIn} signOut={this.state.signOut} handleSignOut={this.handleSignOut} />) : ( !this.props.loading && <Login /> ) }
             </div>
             // <BrowserRouter>
             //     <Switch>

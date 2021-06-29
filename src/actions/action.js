@@ -28,6 +28,38 @@ export const All_CANDIDATE_APPLIED_JOBS = 'All_CANDIDATE_APPLIED_JOBS';
 
 export const ALL_PERSONAL_DATA = 'ALL_PERSONAL_DATA';
 
+export const ALL_CANDIDATE_INTERVIEW_TIME = 'ALL_CANDIDATE_INTERVIEW_TIME';
+
+export const REMOVE_INTERVIEW_FROM_REDUX = 'REMOVE_INTERVIEW_FROM_REDUX';
+
+export const ALL_CANDIDATE_APPROVED_DATE = 'ALL_CANDIDATE_APPROVED_DATE';
+
+
+export const ALL_CANDIDATE_INTERVIEW_LEFT = 'ALL_CANDIDATE_INTERVIEW_LEFT';
+
+export const ALL_CANDIDATE_NAME = 'ALL_CANDIDATE_NAME';
+
+export const ADD_DASHBOARD_SCHEDULE_INTERVIEW = 'ADD_DASHBOARD_SCHEDULE_INTERVIEW';
+
+export const ADD_DASHBOARD_BOXES = 'ADD_DASHBOARD_BOXES';
+
+export const CURRENT_USER_RECEIVED_OFFER = 'CURRENT_USER_RECEIVED_OFFER';
+export const CURRENT_USER_ACCEPTED_OFFER = 'CURRENT_USER_ACCEPTED_OFFER';
+export const CURRENT_USER_REJECT_OFFER = 'CURRENT_USER_REJECT_OFFER';
+
+export const CHANGE_USER_PROFILE_NAME = 'CHANGE_USER_PROFILE_NAME';
+
+
+
+
+
+// export const FAKE = 'FAKE';
+
+
+
+
+
+
 
 
 
@@ -663,6 +695,11 @@ export const allCandidatePersonalData = (data) => ({
     data
 })
 
+// export const fakeData = (data) => ({
+//     type:  FAKE,
+//     data
+// })
+
 // // ALL CANDIDATE OFFER JOBS
 // export const allCandidateOfferJobs = () => ({
 //     type:  All_CANDIDATE_OFFER_JOBS,
@@ -716,7 +753,21 @@ export const showAllCandidateJobs = () => {
                                     id: child.key,
                                     ...child.val()
                                 })
+
+                                // let msg = firebase.database().ref(`msg/${child.key}`);
+                                // let newMsg = msg.push();
+                                // newMsg.set({
+                                    // id: child.key,
+                                    // ...child.val()
+                                // })
                             })
+                            // expeT.forEach((ele) => {
+                            //     database
+                            //     .ref(`update/${child.key}`).push({
+                            //         ...ele,
+                            //     })
+                            //     // mnqzhjV1FQZZIgaJFHFK0ajTmhg2
+                            // })
                             expe.push(expeT);
                             // dispatch(allCandidateAppliedJobs(expe))
                             // expe.push(expeT);
@@ -740,21 +791,64 @@ export const showAllCandidateJobs = () => {
                                 let newArr = [];
                                 // console.log(expe.map((ele) => ele));
                                 exp.push(expS);
-                                // console.log(exp)
                                 expe.map((ele) => {
                                     exp.map((ele1) => {
-                                    if(ele1[0].userId === ele[0].userId)
-                                    {
+                                        let arr = [];
+                                        if (ele1[0].userId === ele[0].userId)
+                                        {
+                                            // console.log(ele, ele1)
+                                            
+                                            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            /// REMOVING COMMON JOBS/////////////////////////////////////////////////////////////////////////////////////////
+                                            ele1.slice(1,).forEach((item) => {
+                                                if (ele.every((item1) => item1.id !== item.id))
+                                                    {
+                                                    arr.push(item)
+                                                    }
+                                            })
+                                            
+                                            // })
+                                            // console.log(ele,ele1, arr)
+                                            // ele1.slice(1,).forEach((item) => ele.every((item1) => {
+                                            //     if (item1.id !== item.id) {
+                                                    
+                                            //         arr.push(item);
+                                            //     }
+                                            // }
+                                            // ))
+                                            //     if (!ele.includes(item.id)) {
+                                                // console.log(ele,arr)                                        // ele1.slice(1,).forEach((item) => {
+                                            //         arr.push(item)
+                                            //     }
+                                            //     // !ele.includes(item) ? arr.push(item) : null 
+                                            // })
+                                        // console.log(ele, ele1,arr)
                                         // console.log(ele.concat(ele1.slice(1)))
                                         
                                         // console.log(delete ele1[0])
-                                        newArr.push(ele.concat(ele1.slice(1,)))
+                                            // newArr.push(ele.concat(ele1.slice(1,)))
+                                        newArr.push(ele.concat(arr))
+                                            
 
                                     }
                                     })
                                     //  {jobMethod: "offer", userId: "NTLbU6BnA4ffUXKwRELnxCUwhrw2"}
                                     // console.log(newArr);
+                                    // database
+                                    // .ref('allCandidateAppliedJobs/')
+                                    // .push({
+                                    //     ...job,
+                                    //     interviewTime: value,
+                                    // })
                                     dispatch(allCandidateAppliedJobs(newArr))
+                                    // dispatch(fakeData(newArr))
+                                    // newArr.forEach((ele) => {
+                                    //     database
+                                    //     .ref(`upd/${child.key}`).set({
+                                    //         ...ele,
+                                    //     })
+                            })
+
                                 })
                 // console.log(expe, expeT);
 
@@ -789,12 +883,66 @@ export const showAllCandidateJobs = () => {
                 // database.ref(`appliedLiveJobs/Uid/${expe[3].id}`).once('value', function(snapshot) {
                 // newEmail = snapshot.val().email;
                 // });
-            })
+            // })
             
+            // })
+            //     database
+            // .ref('upd/')
+            // .once('value').then((snap) => {
+            //     const expe = [];
+            //     // const exp = []
+            //     snap.forEach((child) => {
+            //         expe.push([
+            //             // id: child.key,
+            //             ...child.val()
+            //         ])
+            //     })
+                // dispatch(allCandidateAppliedJobs(expe))
+            //     expe.forEach((single) => {
+            //         if (single[0].userId === userId) {
+            //                 // console.log(item1)
+            //                 single.filter((item2) => {
+            //                     if (item2.id === id) {
+            //                         let ind = single.indexOf(item2);
+            //                         // delete item1[ind]
+            //                             console.log(item2, ind)
+            //                     //     return item2
+            //                     //     // let item = item2
+            //                     //     // delete item
+            //                     }
+            //                 })
+            //             }
+            //     })
+            //     console.log(expe);
+
             })
-                            // console.log(arr);
         
         // dispatch(allData([]))
+            // database
+            // .ref('UsersPersonalData/')
+            //         .once('value').then((snap) => {
+            //             const personalData = [];
+            //             snap.forEach((child) => {
+            //                 personalData.push({
+            //                     // userID: ele.id,
+            //                     id: child.key,
+            //                     ...child.val()
+            //                 })
+            //             })
+            //             // console.log(personalData);
+            //             dispatch(allCandidatePersonalData(personalData))
+            //             // dispatch()
+            //         })
+                    // console.log(arr);
+    }
+
+}
+
+
+// FETCH ALL CANDIDATE PERSONAL DATA
+export const startFetchCandidatePersonalData = () => {
+    const database = firebase.database()
+    return(dispatch) => {
             database
             .ref('UsersPersonalData/')
                     .once('value').then((snap) => {
@@ -806,10 +954,566 @@ export const showAllCandidateJobs = () => {
                                 ...child.val()
                             })
                         })
-                        console.log(personalData);
+                        // console.log(personalData);
                         dispatch(allCandidatePersonalData(personalData))
+                        // dispatch()
                     })
-                    // console.log(arr);
     }
-
 }
+
+
+
+{/* USED IN CANDIDATE DASHBOARD FOR INTERVIEW SECTION */ }
+
+// ALL CANDIDATE INTERVIEW TIME
+export const allCandidateInterviewTime = (data) => ({
+    type:  ALL_CANDIDATE_INTERVIEW_TIME,
+    data
+})
+
+// // ALL CANDIDATE INTERVIEW TIME
+// export const allCandidateInterviewTime = (data) => ({
+//     type:  ALL_CANDIDATE_INTERVIEW_TIME,
+//     data
+// })
+
+// // REMOVE CANDIDATE INTERVIEW FROM REDUX
+// export const removeInterviewFromRedux = (userId, id)  => {
+//     const action = {
+//         type: REMOVE_INTERVIEW_FROM_REDUX,
+//         userId,
+//         id
+//         // data
+//     }
+//     return action;
+// }
+// export const removeInterviewFromRedux = (data) => ({
+//     type:  REMOVE_INTERVIEW_FROM_REDUX,
+//     data
+// })
+
+export const startCandidatesInterviewTime = (userId, job, value, id) => {
+    const database = firebase.database()
+    return (dispatch) => {
+        
+        // findListJobs.map((ele) => {
+                // if (ele.id === id) {
+        // let arr = [];
+                    database
+                        .ref('CandidateInterviewTime/' + userId)
+                        .push({
+                            ...job,
+                            interviewTime: value,
+                        })
+
+        
+        //             database
+        //             .ref('CandidateInterviewTime/')
+        //             .once('value').then((snap) => {
+        //                 const expe = [];
+        //                     expe.push({ jobMethod: 'interview', userId: userId })
+        //                 snap.forEach((child) => {
+        //                     expe.push({
+        //                         id: child.key,
+        //                         ...child.val()
+        //                     })
+        //                 })
+        //                 arr.push(expe)
+        //                 // dispatch(allCandidateInterviewTime(expe))
+        //             })
+        // console.log(arr);
+                        // dispatch(allCandidateInterviewTime(arr))
+        
+                // }
+            // })
+        
+        // database/////////////////////////////////////////////////////
+        //     .ref('CandidateInterviewTime/')
+        //     .once('value').then((snap) => {
+        //         const expe = [];
+        //         // const exp = []
+        //         const expeT = [];
+        //         snap.forEach((child) => {
+        //             console.log(child.key)
+        //             database  //////////////////////////
+        //                 .ref('CandidateInterviewTime/' + child.key)
+        //                 .once('value').then((snap) => {
+        //                     expeT.push({ jobMethod: 'applied', userId: child.key })
+        //                     snap.forEach((child) => {
+        //                         expeT.push({
+        //                             // userID: ele.id,
+        //                             id: child.key,
+        //                             ...child.val()
+        //                         })
+        //                     })
+        //                     expe.push(expeT)
+        //                     console.log(expe, expeT)
+        //                 })
+        //                 dispatch(allCandidateInterviewTime(expe))
+        //                 console.log(expe)
+        //             })
+        //     })///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // database
+        //     .ref('upd/')
+        //     .once('value').then((snap) => {
+        //         const expe = [];
+        //         // const exp = []
+        //         snap.forEach((child) => {
+        //             expe.push([
+        //                 // id: child.key,
+        //                 ...child.val()
+        //             ])
+        //         })
+        //         expe.forEach((single) => {
+        //             if (single[0].userId === userId) {
+        //                     // console.log()
+        //                     single.find((item2) => {
+        //                         if (item2.id === id) {
+        //                             let ind = single.indexOf(item2);
+        //                             // delete item1[ind]
+        //                             database.ref(`upd/${userId}/${ind}`).remove();
+        //                                 console.log(userId, item2, ind)
+        //                         //     return item2
+        //                         //     // let item = item2
+        //                         //     // delete item
+        //                         }
+        //                     })
+        //                 }
+        //         })
+        //         console.log(expe);
+
+        //     })
+        // database
+        //     .ref('upd/')
+        //     .once('value').then((snap) => {
+        //         const expe = [];
+        //         // const exp = []
+        //         snap.forEach((child) => {
+        //             expe.push({
+        //                 id: child.key,
+        //             })
+        //         })
+        //     })
+    }
+}
+
+
+export const startFetchInterviewTime = (userId) => {
+    const database = firebase.database()
+    return (dispatch) => {
+        
+        // database
+        //     .ref('CandidateInterviewTime/')
+        //     .once('value').then((snap) => {
+        //         const expe = [];
+        //         // const exp = []
+        //         snap.forEach((child) => {
+                    // console.log(userId)
+                    database  //////////////////////////
+                        .ref('CandidateInterviewTime/' + userId)
+                        .once('value').then((snap) => {
+                            const expeT = [];
+                            // expeT.push({ jobMethod: 'applied', userId: child.key })
+                            snap.forEach((child) => {
+                                expeT.push({
+                                    // userID: ele.id,
+                                    id: child.key,
+                                    ...child.val()
+                                })
+                            })
+                            // expe.push(expeT)
+                            // console.log(expeT)
+                            dispatch(allCandidateInterviewTime(expeT))
+                            // console.log(expe)
+                        })
+                    // })
+            // })
+    }
+}
+
+
+
+{/* USED IN CANDIDATE DASHBOARD FOR INTERVIEW SECTION */ }
+
+// ALL CANDIDATE APPROVAL DATA
+export const allCandidateApproved = (data) => ({
+    type:  ALL_CANDIDATE_APPROVED_DATE,
+    data
+})
+
+
+export const startAddCandidatesApprovals = (userId, job, value, id) => {
+    const database = firebase.database()
+    return (dispatch) => {
+        
+                    database
+                        .ref('AllCandidateApproval/' + userId)
+                        .push({
+                            ...job,
+                            approval: value,
+                        })
+        
+    }
+}
+
+export const startFetchApprovalDate = (userId) => {
+    const database = firebase.database();
+    return (dispatch) => {
+        
+        // database
+        //     .ref('CandidateInterviewTime/')
+        //     .once('value').then((snap) => {
+        //         const expe = [];
+        //         // const exp = []
+        //         snap.forEach((child) => {
+                    console.log(userId)
+                    database  //////////////////////////
+                        .ref('AllCandidateApproval/' + userId)
+                        .once('value').then((snap) => {
+                            const expeT = [];
+                            // expeT.push({ jobMethod: 'applied', userId: child.key })
+                            snap.forEach((child) => {
+                                expeT.push({
+                                    // userID: ele.id,
+                                    id: child.key,
+                                    ...child.val()
+                                })
+                            })
+                            // expe.push(expeT)
+                            // console.log(expeT)
+                            dispatch(allCandidateApproved(expeT))
+                            // console.log(expe)
+                        })
+                    // })
+            // })
+    }
+}
+
+
+// ALL CANDIDATE Interview Left
+export const allCandidateInterviewLeft = (data) => ({
+    type:  ALL_CANDIDATE_INTERVIEW_LEFT,
+    data
+})
+
+// ALL CANDIDATE Interview Left
+export const allCandidateName= (data) => ({
+    type:  ALL_CANDIDATE_NAME,
+    data
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export const startCheckForUnActionCandidate = (userId) => {
+    const database = firebase.database();
+    return (dispatch) => {
+
+
+        database
+            .ref('appliedLiveJobs/')
+            .once('value').then((snap) => {
+                const expe = [];
+                const exp = [];
+                // const inter = [];
+
+                let newInter = []
+                // let final = []
+                let name = [];
+                // let newArr = [];
+
+                snap.forEach((child) => {
+                    database  //////////////////////////
+                        .ref('appliedLiveJobs/' + child.key)
+                        .once('value').then((snap) => {
+                            const expeT = [];
+                            expeT.push({ jobMethod: 'applied', userId: child.key })
+                            snap.forEach((child) => {
+                                expeT.push({
+                                    id: child.key,
+                                    ...child.val()
+                                })
+
+                            })
+
+                            expe.push(expeT);
+
+                            database
+                                .ref('offer/acceptOffer/' + child.key)
+                                .once('value').then((snap) => {
+                                    // const exp = [];
+                                    const expS = [];
+                                    expS.push({ jobMethod: 'offer', userId: child.key })
+                                    snap.forEach((child) => {
+                                        expS.push({
+                                            id: child.key,
+                                            ...child.val()
+                                        })
+                                    })
+                                    let newArr = [];
+                                    // let newInter = []
+                                    // const inter = [];
+                                    // console.log(exp, expe)
+                                    exp.push(expS);
+                                    expe.map((ele) => {
+                                        exp.map((ele1) => {
+                                            let arr = [];
+                                            if (ele1[0].userId === ele[0].userId) {
+                                    
+                                                ele1.slice(1,).forEach((item) => {
+                                                    if (ele.every((item1) => item1.id !== item.id)) {
+                                                        arr.push(item)
+                                                    }
+                                                })
+                                            
+
+                                                newArr.push(ele.concat(arr))
+                                            
+                                            }
+                                        })
+                                        // dispatch(allCandidateAppliedJobs(newArr))
+                                    })
+                                
+                                    // console.log(newArr, '111111111')
+                                    // const inter = [];
+                                    database  //////////////////////////
+                                        .ref('CandidateInterviewTime/' + child.key)
+                                        .once('value').then((snap) => {
+                                            let inter = []
+                                            inter.push({ userId: child.key })
+                                            snap.forEach((child, ind) => {
+                                                inter.push({
+                                                    // userID: ele.id,
+                                                    id: child.key,
+                                                    ...child.val()
+                                                })
+                                                // newArr[ind].concat({
+                                                //     // userID: ele.id,
+                                                //     id: child.key,
+                                                //     ...child.val()
+                                                // })
+                                            })
+                                            // newArr.forEach((el, ind) => {
+                                            //     el.concat(inter)
+                                            
+                                            // })
+                                            // newArr
+                                            // newInter.push(inter)
+                                            
+                                            newInter.push(inter)
+                                            // console.log(inter)
+                                            // console.log(newArr, '--------')
+                                            // newArr.forEach((el, ind) => {
+                                            //         final.push(el.concat(inter[ind]))
+                                            
+                                            // })
+                                            // newArr.push(expS);
+                                            // console.log(newArr, newInter)
+                                            let num = []
+                                            newArr.forEach((ele, ind) => {
+                                                newInter.find((el) => {
+                                                    if (ele[0].userId === el[0].userId) {
+                                                        num.push(ele.length - el.length)
+                                                        // console.log(ele.concat(el))
+                                                    }
+                                                    // console.log('-------------------')
+                                                })
+                                                
+                                                // console.log(num);
+                                                // console.log(newArr)
+                                                // console.log(newInter)
+                                                
+                                            })
+                                            dispatch(allCandidateInterviewLeft(num))
+                                            
+                                            // console.log(num, '--------')
+                                        }) /////// applied finish here///////////
+                                    
+                                        // console.log(newArr)
+                                    })
+                            // let name = [];
+                            
+                        }) ///////////////////////////////////////////////
+                    
+                        database
+                            .ref('UsersPersonalData/')
+                            .once('value').then((snap) => {
+                                const expe = [];
+                                snap.forEach((child) => {
+                                    expe.push({
+                                        id: child.key,
+                                        ...child.val()
+                                    })
+                                })
+                                let find = expe.find((el) => el.id === child.key);
+                                if (find) {
+                                    name.push(find.name)
+                                } else {
+                                    name.push('noName')
+                                }
+                                // if (find) {
+                                    // let nam = find.map()
+                                    // name.push(expe.name)
+                                    // console.log(child.key)
+                                    
+                                    // }
+                                    // console.log(name)
+                                dispatch(allCandidateName(name))
+                                })
+                        
+                        
+                        // console.log(child.key)
+                    })
+        
+                /////////////////////////////////////////////////////////////////////////
+                // database
+                //     .ref('appliedLiveJobs/')
+                //     .once('value').then((snap) => {
+                //         const expe = [];
+                //         const exp = []
+                //         snap.forEach((child) => {
+                //             // delete child.key
+                //             // expe.push({
+                //             //     id: child.key,
+                //             //     // child.val().username
+                //             // })
+                //             // })
+                //             // firebase.database().ref('appliedLiveJobs/' + expe[0].id).once('value').then(function(snapshot) {
+                //             // const username = (snapshot.val() && snapshot.val().username)
+                //             // console.log(username)
+                //             // })
+                //             // const expeT = [];
+                //             // const expS = [];
+                //             // expe.forEach((ele) => {
+                //             // console.log(child.key);
+                //             // let arr = []
+
+                //             //     // if (ele.id === firebase.auth().currentUser.uid) {
+                //             //     //     console.log(ele.id)
+                        
+                //             // //     // }
+                // database  //////////////////////////
+                //     .ref('CandidateInterviewTime/' + child.key)
+                //     .once('value').then((snap) => {
+                //         const expeT = [];
+                //         expeT.push({ userId: child.key })
+                //         snap.forEach((child) => {
+                //             expeT.push({
+                //                 // userID: ele.id,
+                //                 id: child.key,
+                //                 ...child.val()
+                //             })
+
+                //                         // let msg = firebase.database().ref(`msg/${child.key}`);
+                //                         // let newMsg = msg.push();
+                //                         // newMsg.set({
+                //                         // id: child.key,
+                //                         // ...child.val()
+                //                         // })
+                //                     })
+                //                     console.log(expeT)
+                //                 })
+                //         })
+                //     })
+
+
+
+
+
+
+
+                // database
+                //     .ref('CandidateInterviewTime/' + userId)
+                //     .once('value').then((snap) => {
+                //         // const expe = [];
+                //         const exp = []
+                //         snap.forEach((child) => {
+                //             exp.push({
+                //                 id: child.key,
+                //                 ...child.val()
+                //             })
+                //         })
+                //         console.log(exp)
+                //     })
+                // let final = []
+                // database
+                //     .ref('UsersPersonalData/')
+                //     .once('value').then((snap) => {
+                //         const expe = [];
+                //         const exp = []
+                //         snap.forEach((child) => {
+                //                         expe.push({
+                //                             id: child.id,
+                //                             ...child.val()
+                //                             })
+                //                         })
+                //                         expe.forEach((ele) => {
+                //             console.log(ele.id)
+
+                //             database  
+                //                 .ref('AllCandidateApproval/' + userId)
+                //                 .once('value').then((snap) => {
+                //                     const expeT = [];
+                //                     // expeT.push({ jobMethod: 'applied', userId: child.key })
+                //                     snap.forEach((child) => {
+                //                         expeT.push({
+                //                             // userID: ele.id,
+                //                             id: child.key,
+                //                             ...child.val()
+                //                         })
+                //                     })
+                //                     // expe.push(expeT)
+                //                     // console.log(expeT)
+                //                     // dispatch(allCandidateApproved(expeT))
+                //                     // console.log(expe)
+                //                 })
+                //         })
+                //             // })
+                //     })
+            })
+    }
+}
+
+
+/////////////////// USED IN EMPLOYER DASHBOARD /////////////////////////////////////////////////////////////////////////////////////////////////
+export const addDashboardScheduleInterview = (data) => {
+    const action = {
+        type: ADD_DASHBOARD_SCHEDULE_INTERVIEW,
+        data
+    }
+    return action;
+}
+
+
+export const addDashboardBoxes = (data) => {
+    const action = {
+        type: ADD_DASHBOARD_BOXES,
+        data
+    }
+    return action;
+}
+
+
+///////////////// USED IN OFFER SECTION OF CANDIDATE FOR SEARCH,     FILTER AND SORT ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// FIND CURRENT USER RECEIVED OFFER
+export const currentUserReceivedOffer = (data) => ({
+    type: CURRENT_USER_RECEIVED_OFFER,
+    data
+})
+
+// FIND CURRENT USER ACCEPTED OFFER
+export const currentUserAcceptedOffer = (data) => ({
+    type: CURRENT_USER_ACCEPTED_OFFER,
+    data
+})
+// FIND CURRENT USER REJECT OFFER
+export const currentUserRejectOffer = (data) => ({
+    type: CURRENT_USER_REJECT_OFFER,
+    data
+})
+
+
+//// USED IN LOGIN /////////////////////////////////////////////////////
+export const changeUserProfileName = (user) => ({
+    type: CHANGE_USER_PROFILE_NAME,
+    user
+})

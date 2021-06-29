@@ -2,14 +2,25 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { startRemovedLiveJobs } from '../../../actions/action';
+import Spinner from '../../Spinner';
 
 class SingleMapJobs extends Component {
     state= {
         id: this.props.match.params.id,
         modal1: false,
         modal: 'YOU SUCCESSFULLY APPLY FOR JOB',
+
+        loading: true,
         // current: this.props.current
     }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({loading: false})
+            }, 1000)
+    }
+
+    
     // componentDidMount() {
     //     setTimeout(() => {
     //         this.setState({ modal1: true })
@@ -50,15 +61,24 @@ class SingleMapJobs extends Component {
     // }
     // componentDidMount()
     /// SHOW MODAL WHEN USER CLICK ON APPLY NOW BUTTON ////////////
-    showModal = () => {
+    showModal = (id) => {
+        const btn = document.getElementById(`btn${id}`);
         setTimeout(() => {
+            btn.disabled = true;
             this.setState({ modal1: true })
         }, 100);
         setTimeout(() => {
+                btn.disabled = false;
             this.setState({ modal1: false })
         }, 1500);
     }
     render() {
+
+        if (this.state.loading) {
+        return <Spinner size={3} />
+        }
+
+
         // var x = setInterval(() => {
         //     this.setState({ modal1: true })
         // // whatever code
@@ -99,14 +119,14 @@ class SingleMapJobs extends Component {
                     <Link to='/mapJob'>
                         <button>Back</button>
                 </Link>{' '}
-                <button onClick={() => {
-                    this.showModal();
+                <button id={`btn${id}`} onClick={() => {
+                    this.showModal(id);
                     setTimeout(() => {
                         this.props.startRemovedLiveJobs(id, 'accept');
                         this.props.history.push('/mapJob');
-                    }, 3000);
+                    }, 1800);
                 }} >
-                            Apply Now
+                        Apply Now
                     </button>
                 </div>
                 // Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, suscipit!

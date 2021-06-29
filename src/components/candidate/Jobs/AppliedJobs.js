@@ -1,17 +1,34 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import { startShowAppliedJobs } from '../../../actions/action';
+import Spinner from '../../Spinner';
 
 const AppliedJobs = ({ current, startShowAppliedJobs }) => {
     
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000)
+    }, [loading])
+
+    
+
     useEffect(() => {
         startShowAppliedJobs();
-    },[])
+    }, [])
+    
     if (current.length === 0) {
         return <h1>No Jobs To Display</h1>
     }
+
+    if (loading) {
+        return <Spinner size={3} />
+    }
+
     return (
         <div>
             {

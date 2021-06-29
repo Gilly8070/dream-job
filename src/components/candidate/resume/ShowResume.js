@@ -4,6 +4,7 @@ import Experience from './resumeSection/Experience';
 import Skills from './resumeSection/Skills';
 import About from './resumeSection/About';
 import { useState, useEffect } from 'react';
+import Spinner from '../../Spinner';
 
 // import { connect } from 'react-redux';
 // import { startSetResume } from '../../../actions/action';
@@ -13,8 +14,16 @@ const ShowResume = ({ data }) => {
     const [showExp, setShowExp] = useState(true);
     const [showSkill, setShowSkill] = useState(false);
     const [showAbout, setShowAbout] = useState(false);
+    const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000)
 
+    }, [loading])
+
+    
     // let data2 = data[0];
     // let arr = [];
      // console.log(resumeData)
@@ -29,6 +38,10 @@ const ShowResume = ({ data }) => {
         // console.log('resume')
     // }, [])
     // console.log(data.includes(data[0][1]));
+    if (loading) {
+        return <Spinner size={3} />
+    }
+
     return (
         // { resumeData &&
         <div>
