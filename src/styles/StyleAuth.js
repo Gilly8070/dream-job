@@ -22,7 +22,7 @@ export const MainContent = styled.div`
 export const Content = styled.div`
 /* display: flex; */
 /* flex-direction: column; */
-padding-top: 10px;
+padding-top: 30px;
 background-color: #ddd;
 width: 530px;
 /* position: fixed; */
