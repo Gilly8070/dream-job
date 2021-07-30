@@ -29,7 +29,7 @@ const config = {
     // databaseURL: "https://checkdreamjob-default-rtdb.firebaseio.com",
 
 
-    ///////////////// THIRD ONE CHECK JOB2 /////////////////////////
+    ///////////////// THIRD AND FINAL  ONE CHECK JOB2 /////////////////////////
     apiKey: "AIzaSyBpPAw54hV8-HmHOwSYhQiLdRl3uWIZspU",
     authDomain: "dream-job2.firebaseapp.com",
     projectId: "dream-job2",
@@ -37,6 +37,19 @@ const config = {
     messagingSenderId: "1086429035204",
     appId: "1:1086429035204:web:280383c8d7410086032791",
     measurementId: "G-G4J94SYF91"
+
+
+// apiKey: "AIzaSyAzkLGEgypyJv8MMw-i1HB8pCBDAE9SPcc",
+//     authDomain: "dream-job-6dd80.firebaseapp.com",
+//     databaseURL: "https://dream-job-6dd80-default-rtdb.firebaseio.com",
+//     projectId: "dream-job-6dd80",
+//     storageBucket: "dream-job-6dd80.appspot.com",
+//     messagingSenderId: "65211879809",
+//     appId: "1:65211879909:web:3ae38ef1cdcb2e01fe5f0c",
+//     measurementId: "G-8GSGZQ44ST"
+
+
+
 
 //   // Initialize Firebase
 //   firebase.initializeApp(firebaseConfig);

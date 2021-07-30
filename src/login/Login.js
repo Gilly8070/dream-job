@@ -324,7 +324,7 @@ import '../styles/Navbar.css';
         return (
             <FullContainer>
             {
-                loading ? <Spinner text={'Loading2...'} size={5} /> :
+                loading ? <Spinner text={'Loading...'} size={5} /> :
                 <div>
                 <FadeComponent>
                     <BackgroundImage  />

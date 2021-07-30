@@ -592,7 +592,7 @@ align-content: space-between;
         text-align: right;
 text-overflow: ellipsis; 
     overflow: hidden;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 
     }
 }
@@ -674,7 +674,7 @@ width: 60%;
     &:disabled {
         background-color: ${props => props.checkApprovalForDisabled ? '#ccc' : '#ccc'};
     }
-    pointer-events: ${props => props.checkApprovalForDisabled || props.checkInterviewForDisabled ? 'none' : 'initial'};
+    pointer-events: ${props => props.checkApprovalForDisabled || props.checkInterviewForDisabled && 'none' };
 
     /* pointer-events: ${props => props.checkInterviewForDisabled ? 'none' : 'initial'}; */
 

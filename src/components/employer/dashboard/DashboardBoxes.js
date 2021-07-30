@@ -18,11 +18,11 @@ class DashboardBoxes extends Component {
         setTimeout(() => {
             this.setState({ loading: false })
             
-            // //////////// NEW ONE /////////////////////
-            this.props.fetchDashboardBoxes();
-            this.props.startFetchJobs();
-            this.props.fetchDashboardBoxesInterviewTime();
-        }, 3500)
+        }, 7000)
+        // //////////// NEW ONE /////////////////////
+        this.props.fetchDashboardBoxes();
+        this.props.startFetchJobs();
+        this.props.fetchDashboardBoxesInterviewTime();
         
         // firebase.database() 
         //             .ref('EmployerDashBoardBoxes/')
@@ -41,7 +41,6 @@ class DashboardBoxes extends Component {
     render() {
 
         if (this.state.loading) {
-            
 
         return  <span style={{fontSize: '1.2rem'}}><Spinner onStart='yes' size={3} /></span>
         }
@@ -64,6 +63,7 @@ class DashboardBoxes extends Component {
         let totalSalary = 0;
         // if (this.props.dashboardBoxes !== undefined) {
         salaryArr.forEach((item) => {
+            // console.log(item)
             totalSalary += +item
         })
         let salaryPerHire = totalSalary > 0 ? Math.floor((totalSalary / salaryArr.length) / 70) : 0;
@@ -100,7 +100,7 @@ class DashboardBoxes extends Component {
             })
         }
         // console.log(totalTimeOfApprovedDate - totalTimeOfInterviewDate)
-        let avgTimeInHrs = Math.floor(Math.abs(( totalTimeOfInterviewDate - totalTimeOfApprovedDate) / 1000 / 3600)) 
+        let avgTimeInHrs = totalTimeOfInterviewDate > 0 && Math.floor(Math.abs(( totalTimeOfInterviewDate - totalTimeOfApprovedDate) / 1000 / 3600)) 
         // console.log(totalTimeOfApprovedDate,totalTimeOfInterviewDate, avgTimeInHrs)
 
         //////////////////// END OF AVERAGE TIME /////////////////////////
@@ -122,7 +122,7 @@ class DashboardBoxes extends Component {
                             </span>
                         </SingleBoxesContainer>
                         <SingleBoxesContainer>
-                            <h3>{avgTimeInHrs}</h3>
+                            <h3>{avgTimeInHrs ? avgTimeInHrs : 0}</h3>
                             <span>
                             Avg. Time to hire
                             </span>

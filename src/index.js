@@ -201,7 +201,8 @@ const saveState = (state) => {
 
   // console.log(ans, loadState())
 
-  let persistedStore = loadState();
+
+  // let persistedStore = loadState();
 
 
     // console.log(persistedStore, ans);
@@ -219,7 +220,7 @@ const store = createStore(
   // ... your reducers
   reducers,
   // ...state,
-  persistedStore,
+  // persistedStore,
   applyMiddleware(thunk),
 );
 
@@ -233,7 +234,9 @@ const store = createStore(
     // console.log('store');
 
     // setTimeout(() => {
-  saveState(store.getState());
+    
+    // saveState(store.getState());
+    
     // }, 1);
     // console.log(store.getState().allLiveJobs, 'store222222222');
   });

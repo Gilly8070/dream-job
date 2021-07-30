@@ -22,7 +22,7 @@ const DashboardAlert = ({ candidateInterview }) => {
         return <h3 style={{marginTop: '20px', marginLeft: '10px', marginBottom: '10px'}}>NO MESSAGES</h3>
     }
     let sliArr = candidateInterview.reverse().slice(0, 2);
-    console.log(sliArr);
+    // console.log(sliArr);
     return (
         <AlertContainer>
             {

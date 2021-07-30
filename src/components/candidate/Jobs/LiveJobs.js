@@ -41,7 +41,7 @@ const LiveJobs = ({ current, startRemovedLiveJobs, fetchAllLiveJobsForCurrentUse
                     }, 1);
                     setTimeout(() => {
                         setModalText('You Have Successfully Apply For Job')
-                    }, 8000);
+                    }, 3000);
                     // this.setState({ modal1: true })
                 }, 100);
                 setTimeout(() => {
@@ -49,7 +49,7 @@ const LiveJobs = ({ current, startRemovedLiveJobs, fetchAllLiveJobsForCurrentUse
                     ele.style.pointerEvents = 'initial'
                     setModal(false);
                     // this.setState({ modal1: false })
-                }, 12000);
+                }, 5000);
             }
         })
         if (term === 'reject') {
@@ -87,7 +87,7 @@ const LiveJobs = ({ current, startRemovedLiveJobs, fetchAllLiveJobsForCurrentUse
         return <div><Spinner onStart='yes' size={4} /></div> 
     }
 
-    if ((current !== undefined && current.length === 0) && !modal) {
+    if (!modal && (current !== undefined && current.length === 0)) {
         return <h1 style={{marginTop: '20px', marginLeft: '40px', marginBottom: '10px'}}>No Jobs To Display</h1>
     }
     return (
@@ -233,6 +233,7 @@ const SampleDiv = styled.div`
 /* background-color:  ${props => props.modal2 ? 'rgba(0,0,0,0.4)': null}; */
 /* filter: ${props => props.modal2 ? 'brightness(0.3)' : null}; */
 /* margin: 0px; */
+/* background-color: rgba(0,0,0,0.68); */
 `;
 
 
@@ -244,12 +245,17 @@ justify-content: space-between;
 align-content: space-between;
 font-size: 1.3rem;
 margin-top: 10px;
-background-color:  ${props => props.modal2 ? 'rgba(0,0,0,0.68)': null};
-filter: ${props => props.modal2 ? 'brightness(0.3)' : null};
-margin: ${props => props.modal2 ? '0px': '8px'};
+margin: 8px;
+/* filter: brightness(0.3); */
+/* background-color: rgba(0,0,0,0.68); */
+/* height: 100vh; */
+
+/* background-color:  ${props => props.modal2 && 'rgba(0,0,0,0.68)'}; */
+/* filter: ${props => props.modal2 ? 'brightness(0.3)' : null}; */
+/* margin: ${props => props.modal2 ? '0px': '8px'}; */
 pointer-events: ${props => (props.modal2 || props.checkingDisabled) && !props.checkSidebar && 'none'};
-margin-top: ${props => props.modal2 ? '0px' : '13px'};
-z-index: ${props => props.modal2 && '10'};
+/* margin-top: ${props => props.modal2 ? '0px' : '13px'}; */
+/* z-index: ${props => props.modal2 && '100'}; */
 
 
 
@@ -265,8 +271,8 @@ z-index: ${props => props.modal2 && '10'};
 /* margin: 8px; */
 /* margin-top: 13px; */
 @media (min-width: 768px) {
-/* margin: 12px; */
-margin: ${props => props.modal2 ? '0px': '12px'};
+margin: 12px;
+/* margin: ${props => props.modal2 ? '0px': '12px'}; */
 
 }
 `
@@ -469,7 +475,7 @@ const SideComponent = styled.div`
     width: 70px; //////// important //////////
 margin-right: 5px;
 margin-top: 4px;
-
+/* height: 100vh; */
 display: flex;
 flex-direction: column;
 justify-content: flex-start;

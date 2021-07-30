@@ -24,12 +24,11 @@ const Dashboard = ({ allJobs, received, applied, startFindJobs, startFetchApprov
     const database = firebase.database()
 
     useEffect(() => {
-
+        
         //////////// USED IN INTERVIEW SECTION ///////////////////////////
         startFetchInterviewTime(firebase.auth().currentUser.uid)
         startFetchApprovalDate(firebase.auth().currentUser.uid)
-        ////////// REMEMBER THIS ACTION FETCHING AND CHECKING ALL JOBS SUCH AS APPLIED JOBS, ALL JOBS, RECEIVED OFFER AND ALL LIVE JOBS FOR CURRENT USER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        startFindJobs();
+        
 
         ///////////// NEW ONE /////////////////////
         startShowAppliedJobs();
@@ -84,6 +83,10 @@ const Dashboard = ({ allJobs, received, applied, startFindJobs, startFetchApprov
     }, [database])
     
     if (loading) {
+        /////// THIS ONE IS SPECIAL CASE REMEMBER IT IS STOPPING JOBS FROM ADDING TWICE ////////////////////////////////
+        ////////// REMEMBER THIS ACTION FETCHING AND CHECKING ALL JOBS SUCH AS APPLIED JOBS, ALL JOBS, RECEIVED OFFER AND ALL LIVE JOBS FOR CURRENT USER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        startFindJobs();
+
         return <div><Spinner onStart='yes'  size={4} /></div>
     }
     window.addEventListener('resize', e => {
@@ -117,7 +120,6 @@ const Dashboard = ({ allJobs, received, applied, startFindJobs, startFetchApprov
             <SingleBox>
                 <p>Accepted offer <span>{lenAccept}</span> out of {(received.length + + lenReject  + +lenAccept) > 0 ? (received.length + + lenReject  + +lenAccept) : 0} offers </p>
             </SingleBox>
-
             <SingleBox>
                     <p>Highest Salary { salary > 0 && (salary / 100000).toFixed(1) ? <span>{(salary / 100000).toFixed(1)} LPA </span>  : <span>{0} LPA</span> } out of {(received.length + + lenReject  + +lenAccept) > 0 ? (received.length + + lenReject  + +lenAccept) : 0} offers </p>
             </SingleBox>

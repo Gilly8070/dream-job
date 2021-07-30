@@ -181,6 +181,7 @@ margin: 5px;
     margin-left: 10px;
     text-overflow: ellipsis; 
     overflow: hidden;
+    font-size: 1.12rem;
 }
 `;
 

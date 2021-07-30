@@ -286,7 +286,7 @@ export const startFindJobs = () => {
                 })
             // console.log(allJobs, 'checkingInitial');
             })
-            console.log(allJobs, 'initial');
+            console.log(allJobs, 'allJobs1111');
             ///////////////// THE COMMENTED CODE IS RUNNING SLOW AND GIVING ERROR BY ADDING SAME SET OF JOBS AGAIN AGAIN THAT WHY IT IS SHIFTED IN THEIR RESPECTIVE ACTION ////////////
 
             // // console.log(allJobs.length, 'allJobs from firebase')
@@ -379,7 +379,7 @@ export const startFindJobs = () => {
                         //                 ...child.val()
                         //             })
                         })
-                            console.log(exp, '1111');
+                            console.log(exp, 'Jobs111');
 
                         exp.forEach((elem) => {
                             ///// PUSHING JOBS TO DASHBOARD JOBS IN FIREBASE ////////////////////
@@ -468,7 +468,7 @@ export const startFindJobs = () => {
                             })
                         })
 
-                        console.log(expe, 'ALL');
+                        console.log(expe, 'Jobs222');
 
                         ////// FILTERING ALL FIREBASE JOBS WITH DASHBOARDS JOBS ///////
                         let fil = expe.filter(f => allJobs.every(item => item.id !== f.id))
@@ -483,6 +483,7 @@ export const startFindJobs = () => {
                                 //         id: ele.key,
                                 //         ...ele
                                 //     })
+                            
                                 // ///// UPDATING LIVE JOBS IN FIREBASE ////////
                                 // database
                                 //     .ref('allLiveJobs/' + firebase.auth().currentUser.uid)

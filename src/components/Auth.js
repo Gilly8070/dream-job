@@ -128,7 +128,7 @@ const Auth = ({signIn, signOut, handleSignOut, userProfile, startFetchCandidateP
         }
         else {
             if (signIn && userProfile === 'Candidate') {
-                console.log(fire.auth().currentUser, fire.auth().currentUser.displayName, fire.auth().currentUser.email)
+                // console.log(fire.auth().currentUser, fire.auth().currentUser.displayName, fire.auth().currentUser.email)
                 return (
                     <div >
                         <Candidate handleSignOut={handleSignOut} />

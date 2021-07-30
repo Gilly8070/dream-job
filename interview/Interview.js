@@ -13,14 +13,13 @@ const Interview = ({ candidateInterview, startFetchInterviewTime }) => {
         setTimeout(() => {
             setLoading(false);
         }, 3000)
-        
-        //////////////// NEW ONE ////////////////////////////////////////
-        startFetchInterviewTime(firebase.auth().currentUser.uid);
-
     }, [loading])
 
     
     if (loading) {
+        //////////////// NEW ONE ////////////////////////////////////////
+        startFetchInterviewTime(firebase.auth().currentUser.uid);
+
         return  <div><Spinner onStart='yes' size={4} /></div>
     }
 
