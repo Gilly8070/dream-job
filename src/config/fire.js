@@ -36,6 +36,7 @@ const config = {
     storageBucket: "dream-job2.appspot.com",
     messagingSenderId: "1086429035204",
     appId: "1:1086429035204:web:280383c8d7410086032791",
+    databaseURL: "https://dream-job2-default-rtdb.firebaseio.com",
     measurementId: "G-G4J94SYF91"
 
 
