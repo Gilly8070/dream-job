@@ -366,11 +366,11 @@ import '../styles/Navbar.css';
                                         <div>
                                         <Label htmlFor="">Email </Label>
                                         <Input  autoFocus  required autoComplete="new-password" autoSave='off' autocomplete='newddddww-wwwwww'
-                                        id='email' type="text" placeholder='enter email' /><br />
+                                        id='email' type="text" placeholder='Enter email' /><br />
                                         </div>
                                         <div>
                                         <Label htmlFor="">Password </Label>
-                                        <Input required autocomplete='off'  id='password' type="password" placeholder='enter password' /><br />
+                                        <Input required autocomplete='off'  id='password' type="password" placeholder='Enter password' /><br />
                                         </div>
                                         <Button backgroundColor='#15BA53' onClick={handleLogin} className='btn'  type='submit'>Login</Button>
                                         <span>
