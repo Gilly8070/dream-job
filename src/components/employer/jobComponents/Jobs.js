@@ -23,7 +23,9 @@ const Jobs = ({current, startFetchJobs}) => {
         }, 7000)
         
         startFetchJobs() //////////// NEW ONE //////////// 
-
+        return () => {
+      setLoading(false); // This worked for me
+    };
     }, [loading])
 
     

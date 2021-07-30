@@ -36,6 +36,9 @@ const Dashboard = ({ startCheckForUnActionCandidate, showAllCandidateJobs, start
 
 
         setTimeout(() => setLoading(false), 3000)
+        return () => {
+      setLoading(false); // This worked for me
+    };
         // let arr = []
         // let arr2 = []
         // firebase.database()
