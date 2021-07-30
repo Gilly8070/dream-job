@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from '../../../Spinner';
+import styled from 'styled-components';
 
 const Experience = ({ ExperienceDetails }) => {
     // const {} = ExperienceDetails;
@@ -9,27 +10,78 @@ const Experience = ({ ExperienceDetails }) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 300)
+        }, 700)
 
     }, [loading])
 
     if (loading) {
-        return <Spinner size={3} />
+        // style={{margin: '15px'}}
+        return <div  ><Spinner onStart='yes' size = {3} /></div>
     }
+    console.log(ExperienceDetails)
     return (
         <div>
             {ExperienceDetails ?
                 ExperienceDetails.map((ele) => {
-                    const { company, expCity, expCountry, expDate, expState, role } = ele;
+                    const { company, expCity, expCountry, expDate, expState, role, expDesc } = ele;
                     return (
-                        <div>
-                            <h3>{role},{company},{expCity} {expDate}</h3>
-                        </div>
+                        <Div>
+                            <h3>{role},{' '}{company}, {' '}{expCity} <span>{expDate}</span></h3>
+                            <p>{expDesc}</p>
+                        </Div>
                     )
-                }) : 'NO EXPERIENCE ADDED'
+                }) : <Div style={{marginTop: '25px', marginLeft: '20px'}}>NO EXPERIENCE ADDED</Div>
             }
         </div>
     )
 }
 
 export default Experience
+
+
+
+const Div = styled.div`
+font-size: 1.2rem;
+margin: 9px;
+margin-bottom: 4px;
+margin-left: 15px;
+margin-top: 30px;
+h3 {
+    margin-bottom: 10px;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    span {
+        /* float: right; */
+        margin-left: 60px;
+        /* clear: both; */
+        font-weight: normal;
+        /* text-align: right; */
+        /* margin-right: 15%; */
+        font-size: 1.15rem;
+        text-overflow: ellipsis; 
+        overflow: hidden;
+    }
+}
+p {
+    margin-bottom: 10px;
+    margin-top: 15px;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+}
+
+
+@media (min-width: 768px) {
+h3 {
+span {
+    margin-left: 30px;
+}
+}
+}
+@media (min-width: 992px) {
+h3 {
+span {
+    margin-left: 80px;
+}
+}
+}
+`;

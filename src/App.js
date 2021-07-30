@@ -53,7 +53,9 @@ class App extends Component {
         // console.log(this.state.loading);
         // setTimeout(() => {
         //     this.setState({ loading: false });
-        // }, 4000)
+        // }, 1000)
+        // console.log(this.state.user)
+
         this.authListener();
     }
     // componentDidMount() {
@@ -81,8 +83,9 @@ class App extends Component {
             this.setState({ user, isSignedIn: true });
             console.log(this.state, fire.auth());
         } else {
-            this.setState({ user: null, isSignedIn: false });
-        console.log(this.state, fire.auth());
+            // this.setState({ user: null, isSignedIn: false });
+            // this.setState({ user: 'Employer', isSignedIn: true });
+        console.log(this.state, fire.auth(), 'hello', user);
 
         }
         })
@@ -117,13 +120,14 @@ class App extends Component {
     //     this.setState({openSide: !this.state.openSide});
     // }
     render() {
-        // console.log(this.state.data, '2');
+        // console.log('yes');
         return (
+            // 'yes'
             // {
             //     this.state.loading ? <Spinner /> : null
             // }
             <div>
-            { !this.props.loading && this.state.user ? (<Auth signIn={this.state.isSignedIn} signOut={this.state.signOut} handleSignOut={this.handleSignOut} />) : ( !this.props.loading && <Login /> ) }
+            { !this.props.loading && this.state.user ? (<Auth signIn={this.state.isSignedIn} signOut={this.state.signOut} handleSignOut={this.handleSignOut} />) : (<Login /> ) }
             </div>
             // <BrowserRouter>
             //     <Switch>

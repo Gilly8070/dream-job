@@ -28,6 +28,12 @@
 width: 0;  
 background: transparent;
 }
+
+/* html { height: 100%; overflow:auto; }
+body { height: 100%; } */
+/* html { position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: auto; }
+body { width: 100%; height: auto; }
+#app { width: 100%; height: auto; } */
 /* body {
 width: 1000px;
 height: 1000px;
@@ -86,23 +92,20 @@ height: 1000px;
 
 
 /* FOR USED CHECKBOX IN SORT */
-.increase {
+/* .increase {
     transform: scale(1);
     -ms-transform: scale(2);
     -webkit-transform: scale(2);
-    /* padding: 10px; */
     margin-right: 40px;
     padding-right: 25px;
     margin-left: 15px;
 }
 label {
-    /* margin-right: 20px; */
 }
 
 .sort {
-    /* margin-right: 14px; */
     padding: 25px;
-}
+} */
 
 /* .App-logo-spinner{
     transform: rotateX(30 deg);

@@ -18,10 +18,10 @@ import SingleApproval from './approvals/SingleApproval';
 
 const Employer = ({ handleSignOut }) => {
     // const wrapperRef = useRef(null);
+    // const [isVisible, setIsVisible] = useState(false);
+    
     const sidebarRef = useRef(null);
-
     const [openSide, SetOpenSide] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
 
     const openSideBar = () => {
         SetOpenSide(!openSide);
@@ -56,25 +56,27 @@ const Employer = ({ handleSignOut }) => {
     // useEffect(() => {
     //     history.push('/')
     // })
+    // console.log(sidebarRef.current.clientWidth)
     return (
-        <UpperContainer  openSide={openSide}>
+        <UpperContainer>
             <BrowserRouter>
                 <EmpNavContainer>
                 <Navbar openSideBar={openSideBar} handleSignOut={handleSignOut} />
                 </EmpNavContainer>
-        <Container  openSide={openSide}>
-        {
-                        openSide ?
+                <Container  openSide={openSide}>
+                {
+                    openSide ?
                             <Rotate>
-                    <TabWrapper onClick={handleClickOutside} ref={sidebarRef} valueSide = 'sidebarRef.current.clientWidth' openSide={openSide}>
+                                <TabWrapper onClick={handleClickOutside} ref={sidebarRef}  openSide={openSide}>
+                    
                     {/*
                         <Sidebar openSide={openSide} />
                     */}
-                        
+                                
                                 <Sidebar openSide={openSide} />
                                 </TabWrapper>
-                            </Rotate>
-
+                                
+                                </Rotate>
                                 : null
                             } 
                     <DashContainer
@@ -83,11 +85,11 @@ const Employer = ({ handleSignOut }) => {
                 <Switch>{
                     
                     }
-                    <Route exact path="/">
-                        <Dashboard openSideBar={openSideBar}  />
-                    </Route>
                     <Route exact path="/jobs">
-                        <Jobs />
+                    <Jobs />
+                    </Route>
+                    <Route exact path="/">
+                        <Dashboard />
                     </Route>
                     <Route exact path='/addJob'>
                         <AddJob />
@@ -143,6 +145,8 @@ display: flex;
         /* position: sticky; */
         top: 0;
         z-index: 10;
+        
+
     }
 `
 
@@ -154,14 +158,22 @@ const Container = styled.div`
         
 
         // TO MAKE BACKGROUND BLUR THIS 2 IMPORTANT///////////////////////
-        background-color: ${props => props.openSide ? 'rgba(0, 0, 0, 0.68)' : null};
+        background-color: ${props => props.openSide ? `rgba(0, 0, 0, 0.68)` : null};
+        /* &:disabled {
+            background-color: ${props => props.openSide ? '#ccc' : null};
+        } */
         top: 0;//////////////////////////////  2222222222
+        /* bottom: 0; */
+        /*
+        left: 0;
+        right: 0; */
+        /* top: ${props => props.openSide ? '70' : '70'}; */
+        /* bottom: ${props => props.openSide ? '0' : '0'}; */
 
-        /* top: ${props => props.openSide ? '70' : '0'}; */
         /* top: 70px; */
         /// TO MAKE WHOLE SCREEN BLUR FOR SIDEBAR
-        z-index: ${props => props.openSide ? '90' : '7'};
-
+        z-index: ${props => props.openSide ? '90' : '0'};
+        /* z-index: 99; */
 
 
     @media (max-width: 320px ) {
@@ -170,36 +182,81 @@ const Container = styled.div`
         flex-direction: column;
         position: relative;
         height: 100vh;
+        /* background-color: ${props => props.openSide ? `rgba(0, 0, 0, 1)` : null}; */
+        /* z-index: ${props => props.openSide ? '999' : '0'}; */
+
+
     } 
 `
 const DashContainer = styled.div`
-        position: absolute;
+
+////// SOLUTION 1 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /* position: absolute;
         overflow-y: ${props => props.openSide ? 'hidden' : 'scroll'};
         position: ${props => props.openSide ? 'fixed' : 'relative'};
-        bottom: ${props => props.openSide ? '0' : '0'};
+        bottom: ${props => props.openSide ? '70px' : '70px'};
         top: ${props => props.openSide ? '70px' : '70px'};
+         */
+
+///////////////// END OF SOLUTION 1 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        /// TO HIDE THE BACKGROUND COLOR OTHER FROM SIDEBAR ///////////////////////////////////
+        filter: ${props => props.openSide ? 'brightness(0.3)' : null};
+        /* &:disabled {
+            background-color: ${props => props.openSide ? '#ccc' : null};
+        } */
+
+        ///// AFTER ERROR FROM DASHBOARD THIS TWO ADDED/////////////////////
+        left: ${props => props.openSide ? '0' : '0'};
+        right: ${props => props.openSide ? '0' : '0'};
+        /* z-index: 0;
+         */
+        /* background-color: ${props => props.openSide ? `rgba(0, 0, 0, 1)` : null}; */
+        /* z-index: 999; */
+
+////////// SOLUTION 2 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        overflow-y: ${props => props.openSide ? 'hidden' : 'scroll'};
+        position: absolute;
+        top: 70px;
+        bottom: 0;
+        pointer-events: ${props => props.openSide ? 'none' : null};
+
+////////////////// END OF SOLUTION 2 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     @media (max-width: 320px ) {
-        overflow-y: ${props => props.openSide ? 'hidden' : 'scroll'};
+        /* overflow-y: ${props => props.openSide ? 'hidden' : 'scroll'};
         position: ${props => props.openSide ? 'fixed' : 'relative'};
-        bottom: ${props => props.openSide ? '0' : '0'};
-        top: ${props => props.openSide ? '70px' : '70px'};    /// 2
+        bottom: ${props => props.openSide ? '0px' : '0px'};
+        top: ${props => props.openSide ? '70px' : '70px'};    /// 2 */
 
+
+
+        /* z-index: 10; */
+        /* &:disabled {
+            background-color: ${props => props.openSide ? '#ccc' : null};
+        } */
+        /* background-color: ${props => props.openSide ? `rgba(0, 0, 0, 0.68)` : null}; */
+
+
+
+        //////// TO DISABLED ALL THE BUTTONS AND CLICK WHEN OVERLAY IS ON///////////////////////////////////////////////////////////////////
+        pointer-events: ${props => props.openSide ? 'none' : null};
+
+        /* background: none; */
+        /* left: ${props => props.openSide ? '0' : '0'}; */
+        /* right: ${props => props.openSide ? '0' : '0'}; */
+        /* z-index: 120; */
+        
+        overflow-y: ${props => props.openSide ? 'hidden' : 'scroll'};
+        position: absolute;
+        top: 70px;
+        bottom: 0;
     } 
-`
-const rotate = keyframes`
-/* from {
-    transform: ${props => 'translateX(-props.valueSide)'};
-    /* opacity: 0.5; */
-}
-/* to{ */
-    /* transform: translateX(0); */
-    /* opacity: 0.8; */
-
-/* } */ 
-`
-const Rotate = styled.div`
-animation: ${rotate} 1s ease-in-out;
 `
 
 const TabWrapper = styled.div`
@@ -213,7 +270,7 @@ const TabWrapper = styled.div`
     //// TO HIDE THE FAKE FIXED NAVBAR FROM SCREEN//////////////////
     /* display: ${props => props.openSide ? 'block' : 'none'}; */
     /* top: ${props => props.openSide ? '70' : '70'}; */
-    bottom: ${props => props.openSide ? '0' : '0'};
+    bottom: ${props => props.openSide ? '70' : '0px'};
     
     @media (max-width: 320px ) {
     position: absolute;
@@ -227,7 +284,9 @@ const TabWrapper = styled.div`
     position: ${props => props.openSide ? 'fixed' : 'absolute'};
     /* top: ${props => props.openSide ? '0' : '0'}; */
     /* display: ${props => props.openSide ? 'block' : 'none'}; */
-    bottom: ${props => props.openSide ? '0' : null};
+    bottom: ${props => props.openSide ? '70' : null};
+
+
 }
 
 `
@@ -271,3 +330,15 @@ const TabWrapper = styled.div`
 /* } */
 
 // `;
+
+const rotate = keyframes`
+from {
+    transform: translateX(-300px);
+}
+to{
+    transform: translateX(0px);
+} 
+`
+const Rotate = styled(TabWrapper)`
+animation: ${rotate} 0.5s ease;
+`

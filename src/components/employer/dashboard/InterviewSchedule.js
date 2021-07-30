@@ -3,6 +3,7 @@ import React, { Component }  from 'react'
 import { connect } from 'react-redux';
 // import { startFetchCandidatePersonalData, addDashboardScheduleInterview } from '../../../actions/action';
 import Spinner from '../../Spinner';
+import styled from 'styled-components';
 
 class InterviewSchedule extends Component {
     state = {
@@ -10,8 +11,8 @@ class InterviewSchedule extends Component {
         arr: []
     }
     componentDidMount() {
-        setTimeout(() => this.setState({ loading: false }), 2000)
-        // console.log(this.state.arr)
+        setTimeout(() => this.setState({ loading: false }), 5000)
+        // console.log(this.state.
         
     }
     // myFunc = () => {
@@ -41,9 +42,9 @@ class InterviewSchedule extends Component {
     //     // )
     //     }
     render() {
-        if (this.state.loading) {
-            return <Spinner size={2} />
-        }
+        // if (this.state.loading) {
+        //     return <Spinner size={2} />
+        // }
         let arr = []
         let interview = this.props.scheduleInterview;
         let personal = this.props.personalData;
@@ -64,9 +65,9 @@ class InterviewSchedule extends Component {
         }
         
         let sliArr = arr.reverse().slice(0, 3);
-        if (arr.length === 0) {
-            return <h2>No Interview Schedule</h2>
-        }
+        // if (arr.length > 0) {
+        //     return <h2>No Interview Schedule</h2>
+        // }
         // console.log(sliArr)
 
         // if (sliArr.length > 0) {
@@ -118,23 +119,39 @@ class InterviewSchedule extends Component {
         // console.log(sliArr.forEach((el) => console.log(el)))
     
         return (
-            <div>
-                
+            <Container>
+                <HeadingContainer>
+                    <Headings>Interview Schedule</Headings>
+                </HeadingContainer>
+                {
+                this.state.loading &&
+                <div ><Spinner  onStart='yes' size={3} /></div>
+                }
+                {<div >
+                    {
+                        !this.state.loading && arr.length === 0 &&
+                        <h2 style={{ marginTop: '40px', marginLeft: '40px', marginBottom: '10px'}}>No Interview Schedule</h2>
+                    }
+                </div>
+                }
                 {
                     
                     !this.state.loading && sliArr.length > 0 && sliArr.map((single, ind) => {
+                        let name = single.name.toString('').split(' ').length > 1 ? single.name.toString('').split(' ').slice(0, 2).join(' ') : single.name.toString('').split(' ').length === 1 ? single.name.toString('').split('').slice(0, 10).join('') : single.name;
+                        // console.log(single.name.toString('').split(' ').length, name.toString('').toLowerCase())
                             return (
-                                <div key={ind}>
-                                    <h5>{single.name}</h5>
-                                    <span>{single.title},</span>
-                                    <span>{single.location}</span>
+                                <ContainerInter key={ind}>
+                                    <PersonName>
+                                    <h4>{name.toLowerCase()}</h4>    
                                     <p>{single.interviewDate}</p>
-                                </div>
+                                    </PersonName>
+                                    <span>{single.title.toLowerCase()}, {single.location.toLowerCase()}</span>
+                                </ContainerInter>
                                 )
                         })
                 }
                     
-            </div>
+            </Container>
 
                         // interview.length > 0 ?  this.myFunc()  : null
                     //     interview.forEach((el) =>
@@ -168,7 +185,7 @@ class InterviewSchedule extends Component {
 
     
 const MapState = (state) => {
-    // console.log(state, state.allPersonalData, 'InterviewSchedule');
+    // console.log(state.allPersonalData, state.addDashboardScheduleInterview, 'InterviewSchedule');
 ;
     return {
         // allApplied: state.allCandidateAppliedJobs,
@@ -181,3 +198,177 @@ const MapState = (state) => {
 }
 
 export default connect(MapState, null)(InterviewSchedule);
+
+
+
+
+
+
+
+const Container = styled.div`
+font-family: Arial, Helvetica, sans-serif;
+font-size: 1.2rem;
+`;
+
+
+const HeadingContainer = styled.div`
+background-color: whitesmoke;
+:after {
+    content: '';
+        display: block;
+        border-bottom: 3px solid black;
+        border-radius: 100%;
+        margin: 0px 5px;
+        margin-top: 3px;
+}
+
+`
+const Headings = styled.h4`
+text-align: center;
+font-size: 1.4rem;
+padding: 20px 0px;
+
+`
+
+
+
+const ContainerInter = styled.div`
+margin-left: 9px;
+margin-top: 8px;
+padding: 5px;
+
+>span {
+    font-size: 1.1rem;
+    text-transform: capitalize;
+    margin-left: 9px;
+    /* border: 1px solid black; */
+    text-overflow: ellipsis; 
+    overflow: hidden;
+/* margin-top: 8px; */
+}
+:after {
+        content: '';
+        display: block;
+        border-bottom: 2px solid black;
+        border-radius: 100%;
+        margin-right: 10px;
+        margin-top: 16px;
+        /* margin-left: 0px; */
+}
+
+@media (min-width: 768px) {
+
+}
+`
+
+
+// const ContainerInter = styled.span`
+// @media (max-width: 320px) {
+//     &>p, &>span {
+//         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+//         font-size: 1rem;
+//     }
+// }
+// `
+
+
+
+
+// const HeadingContainer = styled.div`
+
+// @media (max-width: 320px) {
+//     display: flex;
+//     justify-content: center;
+//     align-content: center;
+//     background-color: whitesmoke;
+    
+// }
+// `
+
+// const Headings = styled.h4`
+
+// @media (max-width: 320px) {
+//     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+//     background-color: whitesmoke;
+//     height: 30px;
+// }
+// `
+
+// const Head2 = styled.h4`
+
+// @media (max-width: 320px) {
+// ${Headings}:after {
+//         content: '';
+//         display: block;
+//         border-bottom: 1px solid blue;
+//         width: 110px;
+//         position: relative;
+//         left: 20px;
+//         border-radius: 100px;
+//         background-color: black;
+//     }
+// }
+// `
+
+const PersonName = styled.div`
+margin-bottom: 14px;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-content: space-between;
+margin-top: 5px;
+/* width: 300px; */
+/* border: 1px solid black; */
+>h4 {
+/* border: 1px solid black; */
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    margin-right: 7px;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+}
+>p {
+/* border: 1px solid black; */
+
+    /* font-weight: normal; */
+    font-size: 1.1rem;
+    /* float: right; */
+    /* width: 100%; */
+    margin-right: 60px;
+        text-align: right;
+    /* font-weight: 600px; */
+}
+/* @media (max-width: 320px) {
+font-size: 1rem;
+font-family: serif;
+margin-top: 3px;
+margin-bottom: 3px;
+} */
+
+@media (min-width: 768px) {
+    /* display: grid; */
+    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
+    /* grid-template-columns: 80% au; */
+
+    >h4 {
+        /* border: 1px solid black; */
+        padding-right: 90px;
+    }
+    >p {
+        /* border: 1px solid black; */
+        margin-right: 10px;
+        text-align: right;
+    }
+}
+
+@media (min-width: 1400px) {
+>p {
+    margin-right: 10%;
+}
+}
+@media (min-width: 1600px) {
+>p {
+    margin-right: 15%;
+}
+}
+`

@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import fire from '../config/fire';
-import { Content, MainContent, Headers, Heading1,Heading2, Heading3, FullContainer, FormContainer, Input, Label, Button, SocialButton, SocialButtonContainer} from '../styles/StyleAuth';
+import { Content, MainContent, Headers, Heading1,Heading2, Heading3, FullContainer, FormContainer, Input, Label, Button, SocialButton, Button1, SocialButtonContainer, Heading4, IconsContainer, ErrorContainer} from '../styles/StyleAuth';
 // import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import styled from 'styled-components';
 import firebase from 'firebase';
 // import fire from '../config/fire';
 // import { useCallback } from 'react'
 import { connect } from 'react-redux';
-import { changeUserProfileName } from '../actions/action';
+import {changeUserProfile } from '../actions/action';
 import Spinner from '../components/Spinner';
 import BackImage from '../images/pexels-photo-6942385.jpeg';
 import MainBack from '../images/pexels-photo-3205574.jpeg';
 import '../styles/Navbar.css';
 
-    const Login = ({ userProfile, changeUserProfileName }) => {
+    const Login = ({ userProfile, changeUserProfile }) => {
     // const [name, setName] = useState('');
     const [showLogin, setShowLogin] = useState(true);
     const [error, setError] = useState(null);
     const database = firebase.database();
-    const [loading, setLoading] = useState(true);
+        const [loading, setLoading] = useState(true);
+        
+        // const [activeUser, setActiveUser] = useState('');
+
     // localStorage.getItem('name')
     // const [obj, setObj] = useState(null)
     // const [fetchFirebaseJobs, setFetchFirebaseJobs] = useState([]);
@@ -28,7 +31,7 @@ import '../styles/Navbar.css';
     // const [showSignUp, setShowSignUp] = useState(false);
 
     ////////////// fetch Jobs data from firebase   //////////////////
-    // useEffect(() => {
+    useEffect(() => {
     //     database
     //         .ref('Jobs')
     //         .once('value', (snapshot) => {
@@ -46,33 +49,29 @@ import '../styles/Navbar.css';
     //             // console.log(fetchFirebaseJobs, '1');
     //             // console.log(fetchFirebaseJobs, '2');
     //         })
-    // }, [database])
-    // database.ref('/InitialCheckProfile').once('value').then((snap) => {
-    //             // setName(snap.val());
-    //         changeUserProfileName(snap.val());
+            database.ref('/InitialCheckProfile').once('value').then((snap) => {
+                    changeUserProfile(snap.val());
 
-    //             console.log(snap.val())
-    //         })
+                    })
+    }, [database])
         
         ///// FOR DISABLE ERROR FROM SCREEN//////////////////////////////
         useEffect(() => {
-            // error &&
+                // setError(true);
             setTimeout(() => {
-                setError(null);
-            }, 2000)
+                setError(false);
+            }, 3500)
         }, [error])
     
         useEffect(() => {
+            // setLoading(true);
             setTimeout(() => {
             setLoading(false);
             }, 700)
-            database.ref('/InitialCheckProfile').once('value').then((snap) => {
-                // setName(snap.val());
-            changeUserProfileName(snap.val());
-
-                // console.log(snap.val())
-            })
-        }, [changeUserProfileName, database, loading])
+            return () => {
+      setLoading(false); // This worked for me
+    };
+        }, [loading])
 
     const handleForm = (e) => {
         e.preventDefault();
@@ -92,6 +91,22 @@ import '../styles/Navbar.css';
         e.preventDefault();
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
+
+        ////////////// DISABLED BUTTON AFTER USER CLICK FOR SOME TIME //////////////////////////////////////////////////////////////////////
+        const btn = document.querySelectorAll('.btn')
+        btn.forEach((ele) => {
+        setTimeout(() => {
+            ele.style.pointerEvents = 'none'
+            ele.style.disabled = true;
+            // ele.style.backgroundColor = 'black'
+        }, 5)
+        setTimeout(() => {
+            ele.style.disabled = false;
+            ele.style.pointerEvents = 'initial'
+        }, 4000)
+        })
+            
+        // console.log(btn);
         // const form = document.querySelector('#form');
         fire.auth().signInWithEmailAndPassword(email, password)
             .then((u) => {
@@ -103,18 +118,36 @@ import '../styles/Navbar.css';
             .catch((err) => {
                 console.log('Error: ' + err.toString());
                 console.log(err.message);
-                setError(err.message)
+                setError(err.message.toString('').split(' ').slice(0, 15).join(' '))
+                // setError('jddkddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd dkkdllskeiiiiiiiii dkkdiielsslslllll iiekdkdlllls iielllsllskdiiekkd iikekekekeidiikdkdkdk iiekekddiislls ikekelel')
+
             })
         // form.reset();
     }
     const handleSignUp = (e) => {
-        console.log('submitted');
         e.preventDefault();
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
         const userName = document.querySelector('#userName').value;
 
+        // console.log(userName);
+        ////////////// DISABLED BUTTON AFTER USER CLICK FOR SOME TIME //////////////////////////////////////////////////////////////////////
+        const btn = document.querySelectorAll('#btn')
+        btn.forEach((ele) => {
+        setTimeout(() => {
+            ele.style.pointerEvents = 'none'
+            ele.style.disabled = true;
+            // ele.style.backgroundColor = 'black'
+        }, 5)
+        setTimeout(() => {
+            ele.style.disabled = false;
+            ele.style.pointerEvents = 'initial'
+        }, 4000)
+        })
+        
         // const form = document.querySelector('#form');
+        // fire.auth.creat
+        // firebase.auth.create
         fire.auth().createUserWithEmailAndPassword(email, password)
             .then((u) => {
                 if (u.additionalUserInfo.isNewUser && userProfile === 'Candidate') {
@@ -136,7 +169,8 @@ import '../styles/Navbar.css';
                 console.log(err);
                 console.log(err.message);
                 // let err = err
-                setError(err.message);
+                // setError(err.message);
+                setError(err.message.toString('').split(' ').slice(0, 15).join(' '))
             })
                 ////////// fetch data from Jobs////////////////
             // database
@@ -167,12 +201,16 @@ import '../styles/Navbar.css';
     const handleChange = (e) => {
             let target = e.target.innerText;
             let name = target;
-            localStorage.setItem('name', name)
+            // localStorage.setItem('name', name)
             // setName(name);
 
-            database.ref('InitialCheckProfile/').set(name);
-            changeUserProfileName(name);
-
+            // database.ref('InitialCheckProfile/').set(name);
+            changeUserProfile(name);
+        console.log(name);
+        //     if (name === "Employer") {
+        //     setActiveUser(name)
+            
+        // }
             // database.ref('/InitialCheckProfile').once('value').then((snap) => {
             //     setName(snap.val());
             //     console.log(snap.val())
@@ -279,70 +317,103 @@ import '../styles/Navbar.css';
             .catch(err => {
                 console.log(err);
         })
-    }
+        }
+        window.addEventListener('resize', e => {
+            console.log(e.target.innerWidth, e.target.innerHeight)
+        })
         return (
             <FullContainer>
             {
-                loading ? <Spinner text={'Loading'} size={5} /> :
+                loading ? <Spinner text={'Loading2...'} size={5} /> :
                 <div>
                 <FadeComponent>
                     <BackgroundImage  />
                 <Container>
-                <ContainerMain>
-                        <MainContent>
                             <Content>
                                 <Headers>
-                                    <Heading1 onClick={handleChange} >Employer </Heading1>
-                                    <Heading1 onClick={handleChange} >Candidate</Heading1>
+                                    <Heading1 bgColor={userProfile === 'Employer'  && 'Employer'} onClick={handleChange} >Employer </Heading1>
+                                    <Heading1 bgColor={userProfile === 'Candidate' && 'Candidate'} onClick={handleChange} >Candidate</Heading1>
                                 </Headers>
                             
-                                <Heading2>Register / Login as {userProfile}</Heading2>
+                                {/*
+                                        <Heading2>Register / Login as
+                                            <span>
+                                            {userProfile}
+                                            </span>
+                                        </Heading2>
 
-                                {/*<Login signIn={this.state.isSignedIn} userName={localStorage.getItem('name')} />*/}
+                                <Login signIn={this.state.isSignedIn} userName={localStorage.getItem('name')} />*/}
                                 <br />
                                 
-                                <form id='form' action="">
-            
+                                <form onSubmit={handleSignUp}  autoComplete="new-password" autoFocus id='form' action="">
+
+                                    <ErrorContainer>
                                     {
                                         error ? error : null
                                     }
+                                    </ErrorContainer>
                                     {
-                                        showLogin ? <FormContainer  >
-                                            <Heading3>Log in as {userProfile}</Heading3> 
-                                            <br />
-                                            <Label htmlFor="">Email </Label>
-                                            <Input id='email' type="text" placeholder='enter email' /><br />
-                                            <Label htmlFor="">Password </Label>
-                                            <Input id='password' type="password" placeholder='enter password' /><br />
-                                            <Button onClick={handleLogin} type='submit'>Login</Button>
-                                            <h4>Don't have an account? <Button name='signup' onClick={handleForm}>Sign up</Button></h4>
+                                    showLogin ? <FormContainer>
+                                        <div>
+                                        
+                                        <Heading3>Log in as
+                                        <span>
+                                        {userProfile}
+                                        </span>
+                                        </Heading3>
+                                        </div>
+                                        <br />
+                                        <div>
+                                        <Label htmlFor="">Email </Label>
+                                        <Input  autoFocus  required autoComplete="new-password" autoSave='off' autocomplete='newddddww-wwwwww'
+                                        id='email' type="text" placeholder='enter email' /><br />
+                                        </div>
+                                        <div>
+                                        <Label htmlFor="">Password </Label>
+                                        <Input required autocomplete='off'  id='password' type="password" placeholder='enter password' /><br />
+                                        </div>
+                                        <Button backgroundColor='#15BA53' onClick={handleLogin} className='btn'  type='submit'>Login</Button>
+                                        <span>
+                                        <Heading4>Don't have an account? <Button1 backgroundColor='#1e6091'  className='btn' name='signup' onClick={handleForm}>Sign up</Button1></Heading4>
+                                        </span>
                                         </FormContainer> : null
                                     }
                 
                                     {
-                                        !showLogin ? <FormContainer>
-                                            <Heading3>Sign up for free</Heading3> <br />
-                                            <Label htmlFor="">Username </Label>
-                                            <Input id='userName' required type="text" placeholder={`${userProfile} username`} /><br />
-                                            <Label htmlFor="">Email </Label>
-                                            <Input required id='email' type="text" placeholder='Email' /><br />
-                                            <Label htmlFor="">Password </Label>
-                                            <Input required id='password' type="password" placeholder='Your password' /><br />
-                                            <Button onClick={handleSignUp} type='submit'>Create Account</Button>
-                                            <h4>Already have an account? <Button name='login' onClick={handleForm}>Log in</Button></h4>
+                                    !showLogin ? <FormContainer>
+                                    <div>
+                                    <Heading3>Sign up for free</Heading3> <br />
+                                    </div>
+                                    <div>
+                                        <Label htmlFor="">Username </Label>
+                                        <Input 
+                                            autocomplete='new_password' id='userName' required type="text" placeholder={`${userProfile} username`} /><br />
+                                        </div>
+                                        <div>
+                                        <Label htmlFor="">Email </Label>
+                                        <Input  autocomplete='new_password' required id='email' type="text" placeholder='Email' /><br />
+                                        </div>
+                                        <div>
+                                        <Label htmlFor="">Password </Label>
+                                        <Input   autocomplete='new_password' required id='password' type="password" placeholder='Your password' /><br />
+                                        </div>
+                                        <Button backgroundColor='#15BA53'  className='btn' type='submit'>Create Account</Button>
+                                        <span>
+                                        <Heading4>Already have an account? <Button1 backgroundColor='#004e89' className='btn'  name='login' onClick={handleForm}>Log in</Button1></Heading4>
+                                        </span>
                                         </FormContainer> : null
                                     }
 
                                         </form>
                                 {
                                     userProfile === 'Candidate' ?
-                                    <div>
+                                    <IconsContainer>
                                     <h1>Or</h1>
                                     <SocialButtonContainer>
-                                    <SocialButton onClick={handleSignInGoogle}><i class="fab fa-google fa-2x"></i></SocialButton>
-                                    <SocialButton onClick={handleSignInGithub}><i class="fab fa-github fa-2x"></i></SocialButton>
+                                    <SocialButton onClick={handleSignInGoogle}><i className="fab fa-google"></i></SocialButton>
+                                    <SocialButton onClick={handleSignInGithub}><i className="fab fa-github"></i></SocialButton>
                                     </SocialButtonContainer>
-                                    </div>
+                                    </IconsContainer>
                                     : null
                                 }
                                 {/*
@@ -352,9 +423,7 @@ import '../styles/Navbar.css';
                                     />
                             <Auth name={name} />*/}
                             </Content>
-                        </MainContent>
                         
-                        </ContainerMain>
                         </Container>
                         </FadeComponent>
                         </div>
@@ -366,14 +435,14 @@ import '../styles/Navbar.css';
 }
 
 const MapState = (state) => {
-    console.log(state.changeUserProfileName);
+    // console.log(state);
     return {
         userProfile: state.changeUserProfileName
     }
 }
 
 
-export default connect(MapState, { changeUserProfileName })(Login)
+export default connect(MapState, { changeUserProfile })(Login)
 
 
 // const Container = styled.div`
@@ -481,7 +550,7 @@ const BackgroundImage = styled.img`
     padding: 0;
     margin-bottom: -5px;
     margin-left: -2px;
-
+    /* position: relative; */
 @media (max-width: 320px) {
     display: none;
 
@@ -490,14 +559,23 @@ const BackgroundImage = styled.img`
 `;
 
 const Container = styled.div`
+/* padding-top: 10px; */
+
     display: flex;
     justify-content: center;
     align-content: center;
-    position: absolute; 
-    left: 0;
-    right: 0;
+    position: fixed; 
+    left: 10px;
+    right: 10px;
     top: 30px;
-    bottom: 0;
+    bottom: 10px;
+
+
+
+margin-left: 15px;
+margin-right: 15px;
+    /* position: -webkit-static; */
+    /* webkifix */
 
     /* @media (max-width: 320px) {
 padding-top: 0;
@@ -515,9 +593,9 @@ display: flex;
 `
 
 const ContainerMain = styled.div`
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-content: center; */
     /* @media (max-width: 320px) {
 padding-top: 0;
 margin-top: 0;

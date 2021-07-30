@@ -16,7 +16,7 @@ const Resume = ({ startSetResume, current }) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 2000)
+        }, 3000)
 
     }, [loading])
 
@@ -41,13 +41,13 @@ const Resume = ({ startSetResume, current }) => {
     // console.log(getResumeData, '2');
 
     if (loading) {
-        return <Spinner size={3} />
+        return <div><Spinner onStart='yes'  size={4} /></div>
     }
     
     return (
         // startSetResume() 
         <div>
-        {current.length > 0 ?
+        {current !== undefined && current.length > 0  ?
             <ShowResume data={current} />
             :
             <AddResume />
@@ -62,7 +62,7 @@ const Resume = ({ startSetResume, current }) => {
 const MapState = (state) => {
     // delete state[0]
     // delete state.addToFire
-    console.log(state, state.fetchResumeFromFirebase);
+    console.log(state.fetchResumeFromFirebase, 'resume');
     return {
         current: state.fetchResumeFromFirebase
     }

@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { acceptJob, rejectJob } from '../../../actions/action';
 import firebase from 'firebase';
 import { Link } from 'react-router-dom';
-import { currentUserReceivedOffer } from '../../../actions/action';
+import { currentUserReceivedOffer, checkModalForOffer, checkSideComponentForOffer } from '../../../actions/action';
 import Spinner from '../../Spinner';
+import styled, {keyframes} from 'styled-components';
 
-const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer }) => {
-    const [jobFromFirebase, setJobFromFirebase] = useState([]);
+const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer, currentUserReceived, checkModalForOffer, displaySidebar, checkSideComponentForOffer }) => {
+    const [jobFromFirebase, setJobFromFirebase] = useState(currentUserReceived);   /////// THIS CHANGES FROM EMPTY ARRAY
     const [loading, setLoading] = useState(true);
     const [modal, setModal] = useState(false);
     const [modalTerm, setModalTerm] = useState('');
@@ -24,19 +25,19 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
     // let msgRef = firebase.database().ref('offer/accept/' + firebase.auth().currentUser.uid);
     // let newMsgRef = msgRef.push();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000)
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false);
+    //     }, 2000)
 
-    }, [loading])
+    // }, [loading])
 
 
     useEffect(() => {
         database
             .ref('offer/receivedOffer/' + firebase.auth().currentUser.uid)
             .on('value', (snapshot) => {
-                console.log(snapshot.val(), 'snapshot');
+                // console.log(snapshot.val(), 'snapshot');
                 const exp = [];
                 snapshot.forEach((childSnap) => {
                     // database.ref('offer/receivedOffer/' + firebase.auth().currentUser.uid)
@@ -55,7 +56,17 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
                 setJobFromFirebase(exp);
 
                 ////// USED IN SEARCH FILTER COMPONENT////////////////////////////////////////////////////////////////////////////////////
-                currentUserReceivedOffer(exp)
+                // currentUserReceivedOffer(exp)
+
+                // checkSideComponentForOffer(exp);
+                currentUserReceivedOffer();
+    })
+
+
+
+
+        // setJobFromFirebase(currentUserReceived);
+
                 // let sliced = exp.slice(1)
                 // let single = exp.map((single) => single.slice(1))
                 // console.log(single);
@@ -64,14 +75,16 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
                 // let another = merge.map((ele) => ele && ele)
                 // console.log(another);
                 // setJobFromFirebase(another);
-            })
             // database.ref('offer/receivedOffer/' + firebase.auth().currentUser.uid)
         // .push(jobFromFirebase);
         // database.ref('offer/receivedOffer/' + firebase.auth().currentUser.uid)
         //     .push(jobFromFirebase);
         
-        
-    }, []);
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000)
+
+    }, [loading]);
     // console.log(jobFromFirebase);
     // useEffect(() => {
         // database
@@ -103,11 +116,13 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
     const handleAccept = (singleId) => {
         // if(id ===)
         setTimeout(() => {
-        let findSingleJob = jobFromFirebase.find((single) => single.id === singleId)
-        let key = findSingleJob.key;
+            let findSingleJob = jobFromFirebase.find((single) => single.id === singleId)
+            let key = findSingleJob.key;
+            let date = new Date().toLocaleString("en-US").split(',')[0];
+            findSingleJob.acceptedDate = date;
         // findSingleJob.key = ''
         delete findSingleJob.key;
-        console.log(findSingleJob,key, 'find');
+        // console.log(findSingleJob,key, 'find');
         database.ref('offer/acceptOffer/' + firebase.auth().currentUser.uid).push(findSingleJob)
         .then(() => {
             console.log('added to accept')
@@ -203,7 +218,9 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
 
         let findSingleJob = jobFromFirebase.find((single) => single.id === singleId)
         let key = findSingleJob.key;
-        delete findSingleJob.key;
+            delete findSingleJob.key;
+            let date = new Date().toLocaleString("en-US").split(',')[0];
+            findSingleJob.rejectedDate = date;
         console.log(findSingleJob,key, 'find');
         database.ref('offer/rejectOffer/' + firebase.auth().currentUser.uid).push(findSingleJob)
         // .then(() => {
@@ -231,21 +248,27 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
 
     const showModal = (id, term) => {
         // if (term === 'accept') {
+                // setModal(true);
+        
         const btn = document.getElementsByName('btn');
         btn.forEach((ele) => { 
-            console.log(ele, id)
+            // console.log(ele, id)
             setTimeout(() => {
                 ele.disabled = true;
+                ele.style.pointerEvents = 'none';
                 setModal(true);
                 term === 'accept' &&
-                    setModalTerm('SUCCESSFULLY ACCEPTED')
+                setModalTerm('SUCCESSFULLY ACCEPTED')
                 term === 'reject' &&
                 setModalTerm('SUCCESSFULLY REJECTED')
+                checkModalForOffer(true);
             }, 100);
             setTimeout(() => {
                 ele.disabled = false;
+                ele.style.pointerEvents = 'initial';
                 setModal(false);
-            }, 700);
+                checkModalForOffer(false);
+            }, 2500);
         })
         // }
         // if (term === 'reject') {
@@ -257,52 +280,438 @@ const ReceivedOffer = ({ current, acceptJob, rejectJob, currentUserReceivedOffer
     }
     
     if (loading) {
-        return <Spinner size={3} />
+        // currentUserReceivedOffer();
+        return <div ><Spinner onStart='yes' size={3} /></div>
     }
 
     // console.log(jobFromFirebase);
-    if (jobFromFirebase.length === 0) {
-            return <h1>No Jobs To Display</h1>
+    if ((jobFromFirebase.length === 0 && currentUserReceived.length === 0)&& !modal) {
+            return <h1 style={{marginTop: '20px', marginLeft: '20px', marginBottom: '10px'}}>No Received Jobs</h1>
         }
     return (
         // className={` ${accepted ? 'hide': 'active'}`}
-        <div >
-            {
-                modal ? <h1>{modalTerm}</h1> : null
-            }
+        <div>
+                    {
+                        modal && <Rotate>
+                    <Heading checkSidebar={displaySidebar ? true: false} >
+                    <h1>{modalTerm}</h1>
+                    </Heading>
+                        </Rotate> 
+                    }
+        <DashJobsContainer>
             
-            <Link to='search/receivedOffer'>
-                <i class="fas fa-search fa-3x"></i>
-            </Link>
-            <Link to='filter/receivedOffer'>
-                <i class="fas fa-filter fa-3x"></i>
-            </Link>
-            <Link to='sort/receivedOffer'>
-                <i class="fas fa-sort fa-3x"></i>
-            </Link>
-
-            {
+            <JobsContainer modal={modal ? true : null}>
+            {!loading &&
                 jobFromFirebase.map(single => {
                     return (
-                        <div key={single.id}>
-                            <p>{single.id}</p>
-                            <h3>{single.title}</h3>
-                            <p>{single.company ? single.company : 'Anonymous'}, {single.location}</p>
-                            <p>Received Date</p>
-                            <button name='btn' onClick={() => { showModal(single.id, 'accept'); handleAccept(single.id);  }} >Accept</button>
-                            <button name='btn' onClick={() => { handleReject(single.id); showModal(single.id, 'reject') }}>Reject</button>
-                        </div>
+                        <SingleJobsContainer key={single.id}>
+                            <Div>
+                                <Div1>
+                                <img src={single.companyLogo} alt="Logo..." />
+                                    <div>
+                                    <h3>{single.title}</h3>
+                                    <p>{single.company ? single.company : 'Anonymous'}, {single.location}</p>
+                                    </div>
+                                
+                                </Div1>
+                                <Div2>
+                                    <div>
+                                        <p>Received Date:
+                                    <span>{single.receivedDate}</span>        </p>
+                                    </div>
+                                    <Div3>
+                                    <Button bgColor='#15ba53' name='btn' onClick={() => { showModal(single.id, 'accept'); handleAccept(single.id); }} >Accept</Button>
+                                        <Button bgColor='#d00000' name='btn' onClick={() => { handleReject(single.id); showModal(single.id, 'reject'); }}>Reject</Button>
+                                    </Div3>
+                                    
+                                </Div2>
+                                </Div>
+                        </SingleJobsContainer>
                     )
                 })
-            }
+                }
+            </JobsContainer>
+                
+            {/*<SideComponent>
+                <SingleSideComponent>
+                    <Link to='search/receivedOffer'>
+                    <FontIcon className="fas fa-search fa-3x"></FontIcon>
+                    </Link>
+                </SingleSideComponent>
+                <SingleSideComponent>
+                    <Link to='filter/receivedOffer'>
+                    <FontIcon className="fas fa-filter fa-3x"></FontIcon>
+                    </Link>
+                </SingleSideComponent>
+                <SingleSideComponent>
+                    <Link to='sort/receivedOffer'>
+                    <FontIcon className="fas fa-sort fa-3x"></FontIcon>
+                    </Link>
+                </SingleSideComponent>
+            </SideComponent> */}
+
+            </DashJobsContainer>
         </div>
+            
     )
 }
 
 const MapState = (state) => {
-    // console.log(state, 'received');
+    console.log(state, 'received');
     return {
-        current: state.some
+        current: state.list,
+        currentUserReceived: state.currentUserReceivedOffer,
+        displaySidebar: state.checkSidebarForModal,
     }
 }
-export default connect(MapState, {acceptJob, rejectJob, currentUserReceivedOffer})(ReceivedOffer);
+export default connect(MapState, {acceptJob, rejectJob, currentUserReceivedOffer, checkModalForOffer, checkSideComponentForOffer})(ReceivedOffer);
+
+
+
+
+///////////// THE WHOLE CONTAINER //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const DashJobsContainer = styled.div`
+display: flex;
+flex-direction: row;
+/* background-color: black; */
+`;
+
+///////////////////// PARENT OF JOB CONTAINER /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const JobsContainer = styled.div`
+width: 100%; /////// MOST IMPORTANT FOR THIS TYPE////////////
+margin: 5px;
+font-family: -apple-system, BlinkMacSystemFont, Oxygen, Ubuntu, sans-serif;
+font-size: 1.1rem;
+
+pointer-Events: ${props => props.modal ? 'none': 'initial'};
+
+`;
+
+
+
+
+///////////////// SINGLE JOB CONTAINER //////////////////////////////////////////////////////////////////////////////////////////////////
+const SingleJobsContainer = styled.div`
+/* border: 1px solid black; */
+padding: 6px;
+/* padding-left: 1px; */
+/* margin-bottom: 10px; */
+margin-left: 1px;
+margin-right: 4px;
+
+
+:after {
+        content: '';
+        display: block;
+        border-bottom: 2px solid black;
+        position: relative;
+        border-radius: 100%;
+        background-color: black;
+}
+
+/* margin-top: 3px; */
+>div {
+/* display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-content: space-between;
+padding: 12px 8px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); */
+}
+`
+
+
+//////////////// PARENT OF SINGLE JOB FOR ALL VALUES /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+const Div = styled.div`
+/* display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-content: space-between;
+padding: 12px 8px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(1px, 1fr)); */
+
+display: flex;
+flex-direction: row;
+/* justify-content: space-between; */
+/* align-content: space-between; */
+padding: 12px 8px;
+display: grid;
+
+
+@media (min-width: 768px) {
+    /* display: flex;
+flex-direction: row;
+padding: 2px 10px 10px 10px; */
+
+
+display: flex;
+flex-direction: row;
+padding: 2px 10px 10px 10px;
+display: grid;
+grid-template-columns:  60% 40%;
+}
+`;
+
+
+/////////////////// FOR IMAGE, TITLE AND LOCATION //////////////////////////////////////////////////////////////////////////////////////////////////////////
+const Div1 = styled.div` 
+    display: flex;
+    flex-direction: column;
+    /* display: grid; */
+/* grid-template-columns:  60% 40%; */
+    /* justify-content: baseline; */
+    /* align-content: baseline; */
+    text-transform: capitalize;
+    >img {
+        width: 60px;
+        height: 40px;
+        margin-top: 1px;
+        /* margin-bottom: 5px; */
+        /* border: 1px solid black; */
+        
+    }
+    >div{
+        /* margin-left: 40px; */
+        margin-top: 12px;
+        margin-left: 20px;
+        padding: 0px 4px 4px 4px;
+        >h3 {
+            margin-bottom: 9px;
+            margin-top: 5px;
+            text-overflow: ellipsis; 
+            overflow: hidden;
+        /* border: 1px solid black; */
+    /* width: auto; */
+
+        }
+        >p{
+        /* border: 1px solid black; */
+text-overflow: ellipsis; 
+    overflow: hidden;
+    /* width: auto; */
+/* white-space: nowrap; */
+
+        }
+    }
+
+    @media (min-width: 768px) {
+        display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
+    display: grid;
+grid-template-columns: 60px calc(100% - 60px);
+        /* border: 1px solid black; */
+        
+    >img {
+        width: 50px;
+        height: 50px;
+        /* margin-top: 1px; */
+        margin-top: 5px;
+        /* border: 1px solid black; */
+        /* align-items: center; */
+    }
+    >div{
+        /* margin-top: 2px;
+        margin-left: 40px;
+        padding: 0px 4px 4px 4px; */
+
+        margin-top: 15px;
+        margin-left: 40px;
+        padding: 0px 4px 4px 4px;
+
+        >h3 {
+            margin-bottom: 14px;
+            margin-top: 1px;
+        /* border: 1px solid black; */
+
+        }
+        >p {
+            margin-bottom: 8px;
+        }
+    }
+}
+`
+
+/////////////////////////// FOR DATE /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+const Div2 = styled.div`
+display: flex;
+    flex-direction: column;
+    margin-left: 26px;
+
+        /* margin-top: 40px; */
+
+        margin-top: 20px;
+
+        >div>p>span {
+            /* float: right; */
+            /* clear: both; */
+        
+        margin-left: 25px;
+
+            
+    }
+
+    @media (min-width: 768px) {
+        margin-top: 18px;
+        >div>p {
+            float: right;
+            clear: both;
+
+
+            /* margin-top: 1px; */
+/* font-size: 1.1rem; */
+            
+    }
+    }
+`;
+
+/////////////////////////// FOR BUTTON /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+const Div3 = styled.div`
+/* width: 40px; */
+/* margin */
+/* border: 1px solid black; */
+float: right;
+display: flex;
+flex-direction: row;
+/* justify-content: flex-end; */
+/* align-content: flex-end; */
+margin-top: 20px;
+@media (min-width: 768px) {
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
+align-content: flex-end;
+}
+`;
+
+const Button = styled.button`
+border: 1px solid black;
+width: 80px;
+/* float: right; */
+margin-left: 25px;
+margin-right: 4px;
+margin-bottom: 4px;
+cursor: pointer;
+padding: 8px;
+border: none;
+border-radius: 2px;
+font-size: 1.2rem;
+box-shadow: 2px 3px 3px 1px;
+:active {
+transform: scale(0.98);
+}
+:hover {
+    background-color: ${props => props.bgColor};
+    /* color: red; */
+
+}
+@media (min-width: 992px) {
+padding: 9px;
+}
+`;
+
+
+
+
+
+///////////////// FOR ALL FONT AWESOME ICONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const SideComponent = styled.div`
+border: 1px solid black;
+margin: 4px;
+width: 70px; ///////////// CHANGE WIDTH OF SIDE COMPONENT FROM HERE ////////
+margin-right: 5px;
+/* margin-top: -10px; */
+/* height: 100vh; */
+`;
+
+//////////////// SINGLE FONT ICON //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const SingleSideComponent = styled.div`
+/* border: 1px solid red; */
+margin-top: 25px;
+padding-top: 15px;
+text-align: center;
+
+`
+
+const FontIcon = styled.i`
+font-size: 35px;
+/* color: black; */
+cursor: pointer;
+:hover {
+    color: grey;
+    transform: scale(1.1);
+    /* filter: brightness(0.4); */
+    /* background-color: black; */
+    /* border: 1px solid lavenderblush; */
+}
+`;
+
+
+/////////////////////////// FOR MODAL /////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+const Heading = styled.div`
+display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    /* border: 1px solid black; */
+
+    >h1 {
+    /* align-self: center; */
+
+    height: 100px;
+    display: block;
+    z-index: 999;
+    background-color: whiteSmoke;
+    border-radius: 4px;
+    box-shadow: 4px 4px 3px 1px;
+    
+    color: black;
+    padding: 15px;
+    position: fixed;
+    top: 70px;
+    border: 1px solid black;
+    margin-left: 25px;
+    font-size: 1.7rem;
+    padding-top: 35px;
+        ///////////// HIDE MODAL WHEN SIDEBAR OPEN /////////////////
+    display: ${props => props.checkSidebar && 'none'};
+}
+
+@media (min-width :768px) {  //// NO MORE CHANGE ///////////////////
+    >h1 {
+        font-size: 2rem;
+    padding: 30px;
+    }
+}
+
+`
+const rotate = keyframes`
+from  {
+    transform: translateY(0px);
+}
+
+to{
+    transform: translateY(300px);
+}
+/* 0%{
+    transform: translateY(0px);
+}
+50%{
+    transform: translateY(300px);
+}
+100%{
+    transform: translateY(0px);
+} */
+`
+const Rotate = styled.div`
+
+animation: ${rotate} 0.1s ease;
+`

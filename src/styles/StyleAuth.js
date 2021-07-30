@@ -1,87 +1,58 @@
 import styled from 'styled-components';
 
 export const FullContainer = styled.div`
-
-@media (max-width: 320px) {
-/* background-color: #ddd; */
-/* height:500px; */
-/* height: auto;
-padding: 0;
-margin: 0; */
-
-}
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
+/* position: relative; */
+@media (min-width: 0px) and (max-width: 430px) {
+        display: none;
+    }
+    @media (min-height: 0px) and (max-height: 100px) {
+        display: none;
+    }
 `
 
 
 export const MainContent = styled.div`
-/* padding: 0 10px; */
-/* width: 500px; */
-/* height:500px; */
 
-padding-top: 10px;
-display: flex;
-align-items: center;
-justify-content: center;
-
-@media (max-width: 320px) {
-/* padding-top: 0; */
-/* margin-top: 0; */
-/* background-color: #ddd; */
-
-}
 `
 
 export const Content = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-text-align: center;
-width: 500px;
-height:500px;
+/* display: flex; */
+/* flex-direction: column; */
+padding-top: 10px;
 background-color: #ddd;
-
-@media (max-width: 320px) {
-background-color: #ddd;
-display: flex;
-flex-direction: column;
-text-align: center;
-/* height: 100vh; */
-/* width: auto; */
-height:700px;
-position: fixed;
-top: -23%;
-
-
-}
-
+width: 530px;
+/* position: fixed; */
+height: 630px;
+/* margin-bottom: 10px; */
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 `
 
 export const Headers = styled.div`
 display: flex;
-flex-wrap: nowrap;
 flex-direction: row;
+justify-content: center;
+align-content: center;
 padding: 20px;
-
-@media (max-width: 320px) {
-    padding-top: 0px; 
-    margin: 0px;
-
-}
+padding-bottom: 0px;
 
 `
 
 export const Heading1 = styled.h1`
-background-color: white;
-border: 2px solid black;
-margin-right: 4px;
-width: auto;
-padding:10px;
-border-radius: 8px;
+margin-right: 25px;
+opacity: ${props => props.bgColor ? '1' : '0.4'} ;
+transform: ${props => props.bgColor ? 'scale(1.1)' : '0'} ;
+border-bottom: ${props => props.bgColor ? '2px solid #006d77' : 'none'} ;
+padding-bottom: 5px;
+margin-bottom: 15px;
+margin-left: 10px;
+/* border: 1px solid black; */
 
 &:hover {
-    background-color: #bac5b2;
-    transform: scale(0.98);
+    cursor: pointer;
 }
 
 @media (max-width: 320px) {
@@ -96,83 +67,157 @@ font-size: 1rem;
 
 export const Heading2 = styled.h1`
 margin-bottom: 10px;
-font-size: 1rem;
+font-size: 1.2rem;
 
+>span {
+    margin-left: 13px;
+    font-size: 1.5rem;
+}
 `;
 
 
 export const Heading3 = styled.h3`
-font-size: 1.3rem;
-
+font-size: 1.6rem;
+margin-bottom: 10px;
+>span {
+    margin-left: 15px;
+    color: #1E93D6;
+}
 @media (max-width: 320px) {
 font-size: 1.3rem;
-    
 }
 `;
 
 export const FormContainer = styled.div`
+/* border: 1px solid black; */
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
+align-items: center;
 
-@media (max-width: 320px) {
-    padding: 0px;
-    margin: -5px;
+/* height: 300px; */
+/* position: fixed; */
+/* margin-left: 30px; */
+    /* margin-bottom: 50px; */
+>div {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+    flex-direction: row;
+    margin-left: 30px;
+    margin-bottom: 20px;
 }
+
+
 `
 export const Label = styled.label`
-    @media (max-width: 320px) {
-    font-size: 1rem;
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: bold;
 
-    }
+font-size: 1.5rem;
+width: 160px;
+/* margin-left: 30px; */
+    /* margin-bottom: 20px; */
 
 `
 
 export const Input = styled.input`
-    @media (max-width: 320px) {
-    background-color: white;
-    font-size: 1rem;
-    width: 12rem;
-    margin-bottom: -15px;
-    }
+font-size: 1.4rem;
+margin-left: 20px;
+width: 100%;
+margin-right: 5px;
+input:required {
+  border: 1px dashed red;
+}
+/* :required */
+/* margin-right: 20px; */
+/* margin-left: 30px; */
+    /* margin-bottom: 20px; */
 `
 export const Button = styled.button`
-    @media (max-width: 320px) {
-    font-size: 1rem;
-    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-    padding: 0.4rem;
-    margin-bottom: 6px;
-    width: 200px;
-    border-radius:5px;
-    background-color: #fff;
-    border: solid 1px black;
-    &:hover {
-    background-color: #bac5b2;
-    transform: scale(0.9);
-    }
+font-size: 1.3rem;
+padding: 12px;
+border-radius: 5px;
+border: none;
+margin-bottom: 20px;
+margin-top: 20px;
+width: 200px;
+background-color: ${props => props.backgroundColor};
+color: white;
+margin-left: 20px;
+
+:hover {
+    cursor: pointer;
 }
 `
 
-export const SocialButton = styled.div`
-@media (max-width: 320px) {
-    font-size: 1rem;
-    margin-right: 10px;
 
-    &:hover {
-    background-color: white;
-    transform: scale(1.5);
-    }
+
+export const Button1 = styled.button`
+background-color: ${props => props.backgroundColor};
+color: white;
+font-size: 1.2rem;
+padding: 10px;
+border-radius: 5px;
+border: none;
+margin-bottom: 10px;
+margin-top: 20px;
+width: 120px;
+margin-left: 10px;
+
+:hover {
+    cursor: pointer;
 }
-`
+`;
+
+
+export const Heading4 = styled.div`
+font-weight: bold;
+font-size: 1.3rem;
+`;
+
+
+export const IconsContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
+align-items: center;
+margin-bottom: 0px;
+`;
+
+
+
+
 export const SocialButtonContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-content: space-between;
 @media (max-width: 320px) {
     display: flex;
     flex-direction: row;
     margin-top: 4px;
 }
 `
+
+export const SocialButton = styled.div`
+    margin: 20px;
+    font-size: 35px;
+    &:hover {
+        color: #3078BD;
+        cursor: pointer;
+    }
+
+`
+
+export const ErrorContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-content: center;
+align-items: center;
+align-self: center;
+font-size: 1.2rem;
+color: red;
+margin: 0px 4px 0px 12px;
+margin-bottom: 15px;
+z-index: 999;
+`;

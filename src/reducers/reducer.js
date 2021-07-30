@@ -33,12 +33,28 @@ import {
     CURRENT_USER_ACCEPTED_OFFER,
     CURRENT_USER_REJECT_OFFER,
 
-    CHANGE_USER_PROFILE_NAME
+    CHANGE_USER_PROFILE_NAME,
+    TOTAL_APPLIED_JOBS,
+    CHECK_MODAL_FOR_OFFER,
+CHECK_SIDE_COMPONENT_FOR_OFFER,
+
+
+    
     // allCandidateInterviewTime,
     // FAKE,
     // startShowAppliedJobs
     // All_CANDIDATE_OFFER_JOBS,
 } from '../actions/action';
+
+/////////// REDUCER FOR SECOND ACTION /////////////////////////////////////
+import {
+    CANDIDATE_APPLIED_JOBS,
+    FETCH_JOBS,
+    CHECK_SIDEBAR_FOR_MODAL,
+} from '../actions/actionForRedux';
+
+
+
 // import { data } from '../data';
 
 // localStorage.setItem('data', JSON.stringify(data));
@@ -77,7 +93,19 @@ export const initialState = {
     currentUserRejectOffer: [],
 
     changeUserProfileName: '',
+
+    totalAppliedJobs: [],
+    checkModalForAllOffer: false,
+    checkSideComponentForOffer: [],
     // allCandidateOfferJobs: []
+
+
+
+
+    ////// FOR SECOND ACTION //////////////
+    singleCandidateAppliedJobs: [],
+    fetchJobs: [],
+    checkSidebarForModal: false,
 }
 // let some = [initialState.list];
     // {
@@ -100,6 +128,11 @@ export default function reducer(state=initialState, action) {
                 // some: [],
                 // fixedLiveJobs: [],
                 // newJobs: [],
+                // list: [action.addJob],
+                // some: [action.addJob],
+                // list : [state.list.concat(action.addJob)],
+                // some : [state.some.concat(action.addJob)],
+
                 list: [...state.list, action.addJob],
                 some: [...state.list, action.addJob],
             }
@@ -316,14 +349,18 @@ export default function reducer(state=initialState, action) {
             return {
                 ...state,
                 // addDashboardScheduleInterview: [],
-                addDashboardScheduleInterview: [...state.addDashboardScheduleInterview, action.data],
+                // addDashboardScheduleInterview: [...state.addDashboardScheduleInterview, action.data],
+                addDashboardScheduleInterview: action.data,
+
                 
             }
         case ADD_DASHBOARD_BOXES:
             return {
                 ...state,
                 // EmployerDashboardBoxes: [],
-                EmployerDashboardBoxes: [...state.EmployerDashboardBoxes, action.data],
+                // EmployerDashboardBoxes: [...state.EmployerDashboardBoxes, action.data],
+                EmployerDashboardBoxes: action.data,
+
 
             }
         case CURRENT_USER_RECEIVED_OFFER:
@@ -339,12 +376,52 @@ export default function reducer(state=initialState, action) {
         case CURRENT_USER_REJECT_OFFER:
             return {
                 ...state,
-                currentUserRejectOffer: action.data
+                currentUserRejectOffer: action.data,
             }
         case CHANGE_USER_PROFILE_NAME:
             return {
                 ...state,
                 changeUserProfileName: action.user
+                // changeUserProfileName: 'Employer'
+            }
+        case TOTAL_APPLIED_JOBS:
+            return {
+                ...state,
+                totalAppliedJobs: action.data
+                // changeUserProfileName: 'Employer'
+            }
+        case CHECK_MODAL_FOR_OFFER:
+        return {
+            ...state,
+            checkModalForAllOffer: action.typeCheck
+            // changeUserProfileName: 'Employer'
+            }
+        case CHECK_SIDE_COMPONENT_FOR_OFFER:
+        return {
+            ...state,
+            checkSideComponentForOffer: action.data
+            // changeUserProfileName: 'Employer'
+            }
+        // 
+        
+        ////// FOR SECOND ACTION ////////////////////
+            
+        case CANDIDATE_APPLIED_JOBS:
+        return {
+            ...state,
+            singleCandidateAppliedJobs: action.data
+            // changeUserProfileName: 'Employer'
+            }
+        case FETCH_JOBS:
+        return {
+            ...state,
+            fetchJobs: action.data
+            // changeUserProfileName: 'Employer'
+            }
+        case CHECK_SIDEBAR_FOR_MODAL:
+        return {
+            ...state,
+            checkSidebarForModal: action.data
             }
         default:
             return state;

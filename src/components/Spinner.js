@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Spinner = ({ size, text }) => {
+const Spinner = ({ size, text, onStart }) => {
     
     if (text) {
         return (
@@ -12,6 +12,13 @@ const Spinner = ({ size, text }) => {
                 </ContainerMain>
             </Container>
         )
+    }
+    if (onStart) {
+        return (
+        <div>
+            <i style={{marginTop: '20px', marginLeft: '20px', marginBottom: '10px',}} className={`fas fa-spinner fa-pulse fa-${size}x`}></i>
+        </div>
+    )
     }
     return (
         <div>
